@@ -9,9 +9,14 @@
     tools:context="com.wanglu.photoviewer.MainActivity">
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+
+    <GridView
+        android:id="@+id/gv"
         android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
         android:layout_gravity="center"
-        android:layout_height="wrap_content"/>
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"/>
 </FrameLayout>

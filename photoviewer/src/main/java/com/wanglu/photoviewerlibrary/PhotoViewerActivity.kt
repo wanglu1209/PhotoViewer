@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -41,11 +42,12 @@ class PhotoViewerActivity : AppCompatActivity() {
         mTotalPage = intent.getIntExtra(PhotoViewer.TOTAL_PAGE, 0)
 
         mCountRow = intent.getIntExtra(PhotoViewer.COUNT_ROW, 3)
-        mLeftSpace = intent.getIntExtra(PhotoViewer.LEFT_SPACE, dp2px(5))
-        mTopSpace = intent.getIntExtra(PhotoViewer.TOP_SPACE, dp2px(5))
+        mLeftSpace = dp2px(intent.getIntExtra(PhotoViewer.LEFT_SPACE, 5))
+        mTopSpace = dp2px(intent.getIntExtra(PhotoViewer.TOP_SPACE, 5))
         mClickViewLocation = intent.getIntArrayExtra(PhotoViewer.CLICK_VIEW_LOCATION)
-        mClickViewLocation!![0] += mWidth / 2
-        mClickViewLocation!![1] += mHeight / 2
+//        mClickViewLocation!![0] += mWidth / 3
+//        mClickViewLocation!![1] += mHeight / 2
+
 
         mClickLocation[0] = mClickViewLocation!![0]
         mClickLocation[1] = mClickViewLocation!![1]
@@ -55,6 +57,7 @@ class PhotoViewerActivity : AppCompatActivity() {
         // 计算出上面第一个图片的位置
         mClickViewLocation!![1] -= mCurrentPage / mCountRow * mHeight + mCurrentPage / mCountRow * mTopSpace
 
+        Log.d("112233", "${mClickLocation[0]} --- ${mClickLocation[1]} --- ${mClickViewLocation!![0]} --- ${mClickViewLocation!![1]} --- $mLeftSpace")
 
         if (mClickViewLocation == null) {
             throw RuntimeException("Location is required!")
@@ -76,8 +79,10 @@ class PhotoViewerActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
 
-                mClickLocation[0] = (position % mCountRow) * mWidth + position * mLeftSpace + mClickViewLocation!![0]
-                mClickLocation[1] = position / 3 * mHeight + position / 3 * mTopSpace + mClickViewLocation!![1]
+                mClickLocation[0] = (position % mCountRow) * mWidth + (position % mCountRow) * mLeftSpace + mClickViewLocation!![0]
+                mClickLocation[1] = position / mCountRow * mHeight + position / mCountRow * mTopSpace + mClickViewLocation!![1]
+
+                Log.d("112233", "${mClickLocation[0]} --- ${mClickLocation[1]} --- ${mClickViewLocation!![0]} --- ${mClickViewLocation!![1]} --- $mLeftSpace")
 
             }
 
@@ -100,9 +105,13 @@ class PhotoViewerActivity : AppCompatActivity() {
             mInterface!!.show(iv, mPicData!![position])
             var alpha = 1f  // 透明度
             iv.setExitLocation(mClickLocation)
+            iv.setImgSize(intArrayOf(mWidth, mHeight))
 
+            var intAlpha = 255
+            iv.background.alpha = intAlpha
             iv.setOnViewFingerUpListener {
                 alpha = 1f
+                intAlpha = 255
             }
 
             // 注册退出Activity 滑动大于一定距离后退出
@@ -113,10 +122,14 @@ class PhotoViewerActivity : AppCompatActivity() {
 
                 iv.scrollBy(-dx.toInt(), -dy.toInt())   // 移动图像
                 alpha -= dy * 0.001f
+                intAlpha -= dy.toInt()
                 if (alpha > 1) alpha = 1f
                 else if (alpha < 0) alpha = 0f
-                iv.alpha = alpha    // 更改透明度
-                iv.attacher.scale = alpha   // 更改大小
+                if(intAlpha < 0) intAlpha = 0
+                else if (intAlpha > 255) intAlpha = 255
+                iv.background.alpha = intAlpha    // 更改透明度
+                if(alpha >= 0.6)
+                    iv.attacher.scale = alpha   // 更改大小
             }
 
 
@@ -140,6 +153,11 @@ class PhotoViewerActivity : AppCompatActivity() {
     fun dp2px(dipValue: Int): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 dipValue.toFloat(), this.resources.displayMetrics).toInt()
+    }
+
+    override fun onPause() {
+        overridePendingTransition(0,0)
+        super.onPause()
     }
 
 

@@ -1,6 +1,6 @@
 # PhotoViewer
 
-该图片查看器是模仿微信朋友圈查看图片有感而编写
+该图片查看器是模仿微信朋友圈查看图片编写
 
 ```Gradle
 allprojects {
@@ -14,7 +14,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.1'
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.12'
 	}
 	
 ```
@@ -50,13 +50,13 @@ int[] location = new int[2];
 holder.itemView.getLocationInWindow(location);
 ```
 
-其中，`photoview`文件夹为**chrisbanes**大神的[PhotoView](https://github.com/chrisbanes/PhotoView)
+代码中，`photoview`文件夹为**chrisbanes**大神的[PhotoView](https://github.com/chrisbanes/PhotoView)
 
 把代码加入到其中做了一些修改来达到效果
 
 
 
-## 以后
+## Future
 
 - 下滑退出时位置、背景问题
 - 指示器

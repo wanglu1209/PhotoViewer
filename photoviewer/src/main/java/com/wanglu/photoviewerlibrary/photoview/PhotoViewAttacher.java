@@ -407,7 +407,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                                 }
                             }else{
                                 // 如果不是缩放中则判断是否小于400
-                                if (getScale() < mMinScale && ev.getY() - downY < 400){
+                                if (getScale() < mMinScale && mImageView.getBackground().getAlpha() > 0){
                                     RectF rect = getDisplayRect();
                                     if (rect != null) {
                                         v.post(new AnimatedZoomRunnable(getScale(), mMinScale,

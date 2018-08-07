@@ -2,7 +2,6 @@ package com.wanglu.photoviewer
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.wanglu.photoviewerlibrary.PhotoViewer
@@ -21,16 +20,17 @@ class MainActivity : AppCompatActivity() {
                 "http://wallpaper-pub.d2collection.com/class/cover/%E5%8A%A8%E6%BC%AB.png"
         )
 
-        val adapter = RVAdapter(this)
+        val adapter = GvAdapter(this)
+        gv.adapter = adapter
         adapter.setData(picData)
-        rv.layoutManager = GridLayoutManager(this, 3)
-        rv.adapter = adapter
-        adapter.setOnClickListener { position, location ->
+        gv.setOnItemClickListener { parent, view, position, id ->
+            val location = IntArray(2)
+            view.getLocationInWindow(location)
             PhotoViewer
                     .setData(picData)
                     .setCurrentPage(position)
                     .setPicSize(110, 110)
-                    .setPicSpace(10, 10)
+                    .setPicSpace(gv.horizontalSpacing, gv.verticalSpacing)
                     .setCountOfRow(3)
                     .setClickViewLocation(location)
                     .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
