@@ -1,4 +1,4 @@
-package com.wanglu.photoviewer
+package com.wanglu.photoviewerlibrary
 
 import android.content.Context
 import android.util.AttributeSet

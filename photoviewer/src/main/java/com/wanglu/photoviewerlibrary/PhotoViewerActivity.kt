@@ -1,4 +1,4 @@
-package com.wanglu.photoviewer
+package com.wanglu.photoviewerlibrary
 
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
@@ -7,10 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import com.wanglu.photoviewerlibrary.PhotoViewer
 import com.wanglu.photoviewerlibrary.PhotoViewer.PIC_DATA
 import com.wanglu.photoviewerlibrary.PhotoViewer.mInterface
-import com.wanglu.photoviewerlibrary.R
 import com.wanglu.photoviewerlibrary.photoview.PhotoView
 import kotlinx.android.synthetic.main.activity_photoviewer.*
 

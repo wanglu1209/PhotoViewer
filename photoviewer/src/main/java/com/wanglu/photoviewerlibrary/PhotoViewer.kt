@@ -3,7 +3,6 @@ package com.wanglu.photoviewerlibrary
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
-import com.wanglu.photoviewer.PhotoViewerActivity
 
 
 /**

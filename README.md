@@ -2,7 +2,26 @@
 
 该图片查看器是模仿微信朋友圈查看图片有感而编写
 
-**使用：**
+```Gradle
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
+```
+
+```Gradle
+dependencies {
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.1'
+	}
+	
+```
+
+## 使用
+
+
 
 ```Kotlin
 PhotoViewer
@@ -31,9 +50,16 @@ int[] location = new int[2];
 holder.itemView.getLocationInWindow(location);
 ```
 
----
+其中，`photoview`文件夹为**chrisbanes**大神的[PhotoView](https://github.com/chrisbanes/PhotoView)
+
+把代码加入到其中做了一些修改来达到效果
 
 
 
+## 以后
+
+- 下滑退出时位置、背景问题
+- 指示器
+- 只有一个图片时的一些问题
 
 

@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.wanglu.photoviewer.PhotoViewerActivity"
+            android:name=".PhotoViewerActivity"
             android:theme="@style/AppTransparentTheme"/>
     </application>
 </manifest>
