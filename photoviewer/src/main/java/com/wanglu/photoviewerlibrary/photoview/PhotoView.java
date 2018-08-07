@@ -292,11 +292,11 @@ public class PhotoView extends AppCompatImageView {
         attacher.setOnViewDragListener(listener);
     }
 
-    interface OnViewFingerUpL {
+    public interface OnViewFingerUpL {
         void up();
     }
 
-    interface OnExitListener {
+    public interface OnExitListener {
         void exit();
     }
 
