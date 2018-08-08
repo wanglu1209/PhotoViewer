@@ -2,9 +2,8 @@
 
 该图片查看器是模仿微信朋友圈查看图片编写
 
-![](https://fairyever.qiniudn.com/1.gif)
 
-![](https://fairyever.qiniudn.com/2.gif)
+<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/gif1.gif?raw=true" style="zoom:70%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/gif2.gif?raw=true" style="zoom:70%" />
 
 ```Gradle
 allprojects {
