@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.wanglu.photoviewerlibrary.PhotoViewer.PIC_DATA
@@ -35,8 +36,8 @@ class PhotoViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_photoviewer)
 
         mPicData = intent.getStringArrayListExtra(PIC_DATA)
-        mWidth = dp2px(this, intent.getIntExtra(PhotoViewer.WIDTH, -1))
-        mHeight = dp2px(this, intent.getIntExtra(PhotoViewer.HEIGHT, -1))
+        mWidth = intent.getIntExtra(PhotoViewer.WIDTH, -1)
+        mHeight = intent.getIntExtra(PhotoViewer.HEIGHT, -1)
         mCurrentPage = intent.getIntExtra(PhotoViewer.CURRENT_PAGE, 0)
         mTotalPage = intent.getIntExtra(PhotoViewer.TOTAL_PAGE, 0)
 

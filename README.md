@@ -27,10 +27,9 @@ dependencies {
 PhotoViewer
           .setData(图片链接List<String>)
           .setCurrentPage(现在是哪页)
-          .setPicSize(当前图片的宽, 当前图片的高)
           .setPicSpace(图片之间的横距离, 图片之间的竖距离（如果只有一行则写0）)
           .setCountOfRow(一行几个图片)
-          .setClickViewLocation(点击的位置 array[2] [0]为x [1]为y)
+          .setClickView(点击的View)
           .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
               override fun show(iv: ImageView, url: String) {
                
@@ -42,14 +41,6 @@ PhotoViewer
 ```
 
 
-**获取上述代码中的location**
-
-```Kotlin
-int[] location = new int[2];
-// 这样就为location赋值了
-holder.itemView.getLocationInWindow(location);
-```
-
 代码中，`photoview`文件夹为**chrisbanes**大神的[PhotoView](https://github.com/chrisbanes/PhotoView)
 
 把代码加入到其中做了一些修改来达到效果
@@ -58,7 +49,6 @@ holder.itemView.getLocationInWindow(location);
 
 ## Future
 
-- 下滑退出时位置、背景问题
 - 指示器
 - 只有一个图片时的一些问题
 

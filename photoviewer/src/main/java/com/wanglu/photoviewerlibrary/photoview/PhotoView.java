@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Scroller;
