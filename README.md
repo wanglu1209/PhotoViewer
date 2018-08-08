@@ -2,6 +2,9 @@
 
 该图片查看器是模仿微信朋友圈查看图片编写
 
+<img src="http://fairyever.qiniudn.com/1.gif" style="zoom:70%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<img src="http://fairyever.qiniudn.com/2.gif" style="zoom:70%" />
+
+
 ```Gradle
 allprojects {
 		repositories {
@@ -14,7 +17,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.12'
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.13'
 	}
 	
 ```
