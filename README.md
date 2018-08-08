@@ -2,8 +2,8 @@
 
 该图片查看器是模仿微信朋友圈查看图片编写
 
-<img src="http://fairyever.qiniudn.com/1.gif" style="zoom:70%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<img src="http://fairyever.qiniudn.com/2.gif" style="zoom:70%" />
-
+![](http://fairyever.qiniudn.com/1.gif)
+![](http://fairyever.qiniudn.com/2.gif)
 
 ```Gradle
 allprojects {
