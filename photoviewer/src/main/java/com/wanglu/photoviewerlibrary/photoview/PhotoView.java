@@ -25,8 +25,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
+import android.view.View;
 import android.widget.Scroller;
 
 import java.util.Timer;
@@ -45,10 +45,19 @@ public class PhotoView extends AppCompatImageView {
 
     private OnExitListener mExitListener;
 
+    private View mRootView;
+
+
     private int[] mImgSize; // 图片大小
 
 
     private int[] mExitLocation;
+
+
+    float alpha = 1f;
+    int intAlpha = 255;
+
+    int height;
 
     public void setExitLocation(int[] exitLocation) {
         mExitLocation = exitLocation;
@@ -75,6 +84,8 @@ public class PhotoView extends AppCompatImageView {
 
     private void init() {
         attacher = new PhotoViewAttacher(this);
+
+
         //We always pose as a Matrix scale type, though we can change to another scale type
         //via the attacher
         super.setScaleType(ScaleType.MATRIX);
@@ -86,27 +97,30 @@ public class PhotoView extends AppCompatImageView {
         attacher.setOnViewFingerUpListener(new OnViewFingerUpListener() {
             @Override
             public void onViewFingerUp(int x, int y, int dx, int dy) {
+
+                alpha = 1f;
+                intAlpha = 255;
                 // 这里恢复位置和透明度
-                if (PhotoView.this.getBackground().getAlpha() == 0 && mExitListener != null) {
+                if (getRootView().getBackground().getAlpha() == 0 && mExitListener != null) {
+                    int[] location = new int[2];
+
+                    View viewGroup = (View) getParent();
+                    viewGroup.getLocationInWindow(location);
 
                     PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", (1f * mImgSize[0]) / (PhotoView.this.getDrawable().getBounds().width()));
-//                    PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x);
-//                    PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
-                    ObjectAnimator.ofPropertyValuesHolder(PhotoView.this, p1).setDuration(100).start();
-
-
-                    mScroller.startScroll(-(x - dx), -(y - dy), x - mExitLocation[0], y - mExitLocation[1], 200);
-                    postInvalidate();
+                    PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x);
+                    PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
+                    ObjectAnimator.ofPropertyValuesHolder(PhotoView.this, p1, p3, p4).setDuration(200).start();
 
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
                             mExitListener.exit();
                         }
-                    }, 300);
+                    }, 200);
                 } else {
                     ValueAnimator va = ValueAnimator.ofFloat(PhotoView.this.getAlpha(), 1f);
-                    ValueAnimator bgVa = ValueAnimator.ofInt(PhotoView.this.getBackground().getAlpha(), 255);
+                    ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 255);
                     va.setDuration(200);
                     bgVa.setDuration(200);
                     va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -120,11 +134,20 @@ public class PhotoView extends AppCompatImageView {
                     bgVa.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
                         public void onAnimationUpdate(ValueAnimator animation) {
-                            PhotoView.this.getBackground().setAlpha((Integer) animation.getAnimatedValue());
+                            getRootView().getBackground().setAlpha((Integer) animation.getAnimatedValue());
                         }
                     });
                     bgVa.start();
-                    mScroller.startScroll(-(x - dx), -(y - dy), x - dx, y - dy, 200);
+
+                    View viewGroup = (View) getParent();
+                    mScroller.startScroll(
+                            viewGroup.getScrollX(),
+                            viewGroup.getScrollY(),
+                            -viewGroup.getScrollX(),
+                            -viewGroup.getScrollY(), 200
+                    );
+
+
                     postInvalidate();
                     if (l != null) {
                         l.up();
@@ -135,6 +158,14 @@ public class PhotoView extends AppCompatImageView {
         });
     }
 
+    public void setRootView(View rootView) {
+        mRootView = rootView;
+    }
+
+    @Override
+    public View getRootView() {
+        return mRootView;
+    }
 
     public void setImgSize(int[] imgSize) {
         mImgSize = imgSize;
@@ -356,8 +387,7 @@ public class PhotoView extends AppCompatImageView {
     public void computeScroll() {
         super.computeScroll();
         if (mScroller.computeScrollOffset()) {
-            Log.d("112233", mScroller.getCurrX() + " ---- " + mScroller.getCurrY());
-            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            ((View) getParent()).scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             postInvalidate();
         }
     }

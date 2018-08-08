@@ -129,8 +129,8 @@ class CustomGestureDetector {
                     mIsDragging = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    final float x = getActiveX(ev);
-                    final float y = getActiveY(ev);
+                    final float x = ev.getRawX();
+                    final float y = ev.getRawY();
                     final float dx = x - mLastTouchX, dy = y - mLastTouchY;
 
                     if (!mIsDragging) {

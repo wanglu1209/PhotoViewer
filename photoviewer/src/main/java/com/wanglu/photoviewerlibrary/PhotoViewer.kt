@@ -2,6 +2,7 @@ package com.wanglu.photoviewerlibrary
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import android.widget.ImageView
 
 
@@ -17,7 +18,7 @@ object PhotoViewer {
     internal const val LEFT_SPACE = "LEFT_SPACE"
     internal const val TOP_SPACE = "TOP_SPACE"
     internal const val COUNT_ROW = "COUNT_ROW"
-    internal const val CLICK_VIEW_LOCATION = "CLICK_VIEW_LOCATION"
+    internal const val CLICK_VIEW = "CLICK_VIEW"
     internal var mInterface: ShowImageViewInterface? = null
 
     private val i = Intent()
@@ -38,15 +39,6 @@ object PhotoViewer {
     fun setData(data: ArrayList<String>): PhotoViewer {
         i.putStringArrayListExtra(PIC_DATA, data)
         i.putExtra(TOTAL_PAGE, data.size)
-        return this
-    }
-
-    /**
-     * 设置图片小图的大小，用于计算偏移量
-     */
-    fun setPicSize(width: Int, height: Int): PhotoViewer {
-        i.putExtra(WIDTH, width)
-        i.putExtra(HEIGHT, height)
         return this
     }
 
@@ -78,8 +70,14 @@ object PhotoViewer {
     /**
      * 设置点击视图的坐标，用于回弹
      */
-    fun setClickViewLocation(location: IntArray): PhotoViewer {
-        i.putExtra(CLICK_VIEW_LOCATION, location)
+    fun setClickView(view: View): PhotoViewer {
+        val location = IntArray(2)
+        view.getLocationInWindow(location)
+        i.putExtra(CLICK_VIEW, location)
+        // 设置图片大小，获取测量的高度，因为宽可能不准
+        // 如果设置一行三个，每一个imageView的宽度为100，那么gv就会自动增加每一个iv的宽度，所以取高度值
+        i.putExtra(WIDTH, view.measuredHeight)
+        i.putExtra(HEIGHT, view.measuredHeight)
         return this
     }
 

@@ -23,16 +23,13 @@ class MainActivity : AppCompatActivity() {
         val adapter = GvAdapter(this)
         gv.adapter = adapter
         adapter.setData(picData)
-        gv.setOnItemClickListener { parent, view, position, id ->
-            val location = IntArray(2)
-            view.getLocationInWindow(location)
+        gv.setOnItemClickListener { _, view, position, _ ->
             PhotoViewer
                     .setData(picData)
                     .setCurrentPage(position)
-                    .setPicSize(110, 110)
                     .setPicSpace(gv.horizontalSpacing, gv.verticalSpacing)
                     .setCountOfRow(3)
-                    .setClickViewLocation(location)
+                    .setClickView(view)
                     .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
                         override fun show(iv: ImageView, url: String) {
                             Glide.with(iv.context).load(url).into(iv)

@@ -5,7 +5,7 @@
 
     <ImageView
         android:id="@+id/itemIv"
-        android:layout_width="110dp"
+        android:layout_width="120dp"
         android:layout_gravity="center"
-        android:layout_height="110dp"/>
+        android:layout_height="120dp"/>
 </LinearLayout>

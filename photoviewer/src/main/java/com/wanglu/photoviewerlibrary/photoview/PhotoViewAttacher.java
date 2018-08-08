@@ -79,6 +79,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private final float[] mMatrixValues = new float[9];
     float downX = 0, downY = 0;
 
+
     // Listeners
     private OnMatrixChangedListener mMatrixChangeListener;
     private OnPhotoTapListener mPhotoTapListener;
@@ -99,6 +100,8 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private boolean mZoomEnabled = true;
     private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
+    private float[] mImgCenter = new float[2];  // 当前图片的中心点，退出时用
+
 
     private OnGestureListener onGestureListener = new OnGestureListener() {
         @Override
@@ -107,16 +110,20 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 return; // Do not drag if we are already scaling
             }
 
+            mImgCenter[0] += dx;
+            mImgCenter[1] += dy;
+
 
             ViewParent parent = mImageView.getParent();
             // 这里判断向下滑的距离是否大于左右滑
-            if (Math.abs(dy) - Math.abs(dx) > 0.5) {
+            if (!isBottomDrag && Math.abs(dy) - Math.abs(dx) > 0.5) {
                 isBottomDrag = true;
             }
             if (mOnViewDragListener != null) {
                 // 判断
                 if (isBottomDrag && getScale() <= DEFAULT_MIN_SCALE && CURRENT_STATE != STATE_SCALE) {
                     CURRENT_STATE = STATE_DRAG;
+
                     mOnViewDragListener.onDrag(dx, dy);
                 }
             }
@@ -167,6 +174,14 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
     public PhotoViewAttacher(ImageView imageView) {
         mImageView = imageView;
+        mImageView.post(new Runnable() {
+            @Override
+            public void run() {
+
+                mImgCenter[0] = mImageView.getWidth() / 2 + mImageView.getLeft();
+                mImgCenter[1] = mImageView.getHeight() / 2 + mImageView.getTop();
+            }
+        });
         imageView.setOnTouchListener(this);
         imageView.addOnLayoutChangeListener(this);
 
@@ -366,8 +381,8 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             if (mZoomEnabled && Util.hasDrawable((ImageView) v)) {
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        downX = ev.getX();
-                        downY = ev.getY();
+                        downX = ev.getRawX();
+                        downY = ev.getRawY();
                         ViewParent parent = v.getParent();
                         // First, disable the Parent from intercepting the touch
                         // event
@@ -407,7 +422,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                                 }
                             }else{
                                 // 如果不是缩放中则判断是否小于400
-                                if (getScale() < mMinScale && mImageView.getBackground().getAlpha() > 0){
+                                if (getScale() < mMinScale && mImageView.getRootView().getBackground().getAlpha() > 0){
                                     RectF rect = getDisplayRect();
                                     if (rect != null) {
                                         v.post(new AnimatedZoomRunnable(getScale(), mMinScale,
@@ -423,8 +438,10 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                                     parent1.requestDisallowInterceptTouchEvent(false);
                                 }
                                 isBottomDrag = false;
-                                if (CURRENT_STATE != STATE_SCALE)
-                                    mOnViewFingerUpListener.onViewFingerUp((int) ev.getX(), (int) ev.getY(), (int) downX, (int) downY);
+                                if (CURRENT_STATE != STATE_SCALE) {
+
+                                    mOnViewFingerUpListener.onViewFingerUp((int) mImgCenter[0], (int) mImgCenter[1], (int) downX, (int) downY);
+                                }
                             }
 
                         }
@@ -537,6 +554,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         if (animate) {
             mImageView.post(new AnimatedZoomRunnable(getScale(), scale,
                     focalX, focalY));
+
         } else {
             mSuppMatrix.setScale(scale, scale, focalX, focalY);
             checkAndDisplayMatrix();
