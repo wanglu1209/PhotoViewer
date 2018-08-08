@@ -17,7 +17,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.13'
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.14'
 	}
 	
 ```
