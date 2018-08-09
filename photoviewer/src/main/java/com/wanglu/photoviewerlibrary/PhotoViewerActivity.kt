@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -109,11 +108,7 @@ class PhotoViewerActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-//                if (mSelectedDot != null) {
-//                    val dx = mDotGroup!!.getChildAt(1).x - mDotGroup!!.getChildAt(0).x
-//                    mSelectedDot!!.translationX = position * dx
-//                    Log.d("112233", "selected --- $position --- ${mSelectedDot!!.translationX }")
-//                }
+
                 mClickLocation[0] = (position % mCountRow) * mWidth + (position % mCountRow) * mLeftSpace + mClickViewLocation!![0]
                 mClickLocation[1] = position / mCountRow * mHeight + position / mCountRow * mTopSpace + mClickViewLocation!![1]
 
