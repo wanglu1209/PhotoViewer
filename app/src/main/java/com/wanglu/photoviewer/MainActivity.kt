@@ -14,10 +14,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val picData = arrayListOf(
-                "http://fairyever.qiniudn.com/15149572836867.jpg",
-                "http://fairyever.qiniudn.com/15149575161065.jpg",
-                "http://fairyever.qiniudn.com/15149656480663.jpg",
-                "http://wallpaper-pub.d2collection.com/class/cover/%E5%8A%A8%E6%BC%AB.png"
+                "http://fairyever.qiniudn.com/15149572836867.jpg"
+//                ,
+//                "http://fairyever.qiniudn.com/15149575161065.jpg",
+//                "http://fairyever.qiniudn.com/15149656480663.jpg",
+//                "http://wallpaper-pub.d2collection.com/class/cover/%E5%8A%A8%E6%BC%AB.png"
         )
 
         val adapter = GvAdapter(this)

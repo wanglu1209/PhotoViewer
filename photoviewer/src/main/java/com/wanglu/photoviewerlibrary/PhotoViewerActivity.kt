@@ -97,7 +97,7 @@ class PhotoViewerActivity : AppCompatActivity() {
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
-                if (mSelectedDot != null) {
+                if (mSelectedDot != null && mPicData!!.size > 1) {
                     val dx = mDotGroup!!.getChildAt(1).x - mDotGroup!!.getChildAt(0).x
                     if (position != mCurrentPage) {
                         p += position - mCurrentPage
@@ -124,74 +124,75 @@ class PhotoViewerActivity : AppCompatActivity() {
 
 
 
-        root.post {
+        if (mPicData!!.size > 1)
+            root.post {
 
-            /**
-             * 实例化两个Group
-             */
-            mFrameLayout = FrameLayout(this)
-            mDotGroup = LinearLayout(this)
-
-            if (mDotGroup!!.childCount != 0)
-                mDotGroup!!.removeAllViews()
-            val dotParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT)
-            /**
-             * 未选中小圆点的间距
-             */
-            dotParams.rightMargin = dp2px(this, 12)
-
-            /**
-             * 创建未选中的小圆点
-             */
-            for (i in 0 until mPicData!!.size) {
-                val iv = ImageView(this)
-                iv.setImageDrawable(resources.getDrawable(mDot[0]))
-                iv.layoutParams = dotParams
-                mDotGroup!!.addView(iv)
-            }
-
-            /**
-             * 设置小圆点Group的方向为水平
-             */
-            mDotGroup!!.orientation = LinearLayout.HORIZONTAL
-            /**
-             * 设置小圆点在中间
-             */
-            mDotGroup!!.gravity = Gravity.CENTER or Gravity.BOTTOM
-            /**
-             * 两个Group的大小都为match_parent
-             */
-            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT)
-
-
-            params.bottomMargin = dp2px(this, 20)
-            /**
-             * 首先添加小圆点的Group
-             */
-            root.addView(mDotGroup, params)
-
-            mDotGroup!!.post {
-
-                if (mSelectedDot == null) {
-                    val iv = ImageView(this)
-                    iv.setImageDrawable(resources.getDrawable(mDot[1]))
-                    val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                    /**
-                     * 设置选中小圆点的左边距
-                     */
-                    params.leftMargin = mDotGroup!!.getChildAt(0).x.toInt() + dotParams.rightMargin * mCurrentPage + mDotGroup!!.getChildAt(0).width * mCurrentPage
-                    params.gravity = Gravity.BOTTOM
-                    mFrameLayout!!.addView(iv, params)
-                    mSelectedDot = iv
-                }
                 /**
-                 * 然后添加包含未选中圆点和选中圆点的Group
+                 * 实例化两个Group
                  */
-                root.addView(mFrameLayout, params)
+                mFrameLayout = FrameLayout(this)
+                mDotGroup = LinearLayout(this)
+
+                if (mDotGroup!!.childCount != 0)
+                    mDotGroup!!.removeAllViews()
+                val dotParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT)
+                /**
+                 * 未选中小圆点的间距
+                 */
+                dotParams.rightMargin = dp2px(this, 12)
+
+                /**
+                 * 创建未选中的小圆点
+                 */
+                for (i in 0 until mPicData!!.size) {
+                    val iv = ImageView(this)
+                    iv.setImageDrawable(resources.getDrawable(mDot[0]))
+                    iv.layoutParams = dotParams
+                    mDotGroup!!.addView(iv)
+                }
+
+                /**
+                 * 设置小圆点Group的方向为水平
+                 */
+                mDotGroup!!.orientation = LinearLayout.HORIZONTAL
+                /**
+                 * 设置小圆点在中间
+                 */
+                mDotGroup!!.gravity = Gravity.CENTER or Gravity.BOTTOM
+                /**
+                 * 两个Group的大小都为match_parent
+                 */
+                val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT)
+
+
+                params.bottomMargin = dp2px(this, 20)
+                /**
+                 * 首先添加小圆点的Group
+                 */
+                root.addView(mDotGroup, params)
+
+                mDotGroup!!.post {
+
+                    if (mSelectedDot == null) {
+                        val iv = ImageView(this)
+                        iv.setImageDrawable(resources.getDrawable(mDot[1]))
+                        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                        /**
+                         * 设置选中小圆点的左边距
+                         */
+                        params.leftMargin = mDotGroup!!.getChildAt(0).x.toInt() + dotParams.rightMargin * mCurrentPage + mDotGroup!!.getChildAt(0).width * mCurrentPage
+                        params.gravity = Gravity.BOTTOM
+                        mFrameLayout!!.addView(iv, params)
+                        mSelectedDot = iv
+                    }
+                    /**
+                     * 然后添加包含未选中圆点和选中圆点的Group
+                     */
+                    root.addView(mFrameLayout, params)
+                }
             }
-        }
 
     }
 
