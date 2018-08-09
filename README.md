@@ -17,7 +17,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.14'
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.15'
 	}
 	
 ```
@@ -52,11 +52,13 @@ PhotoViewer
 
 ## 更新日志
 
-**0.15**
+###0.15
+
 增加了指示器
 
 
-**0.14**
+### 0.14
+
 简化了调用链
 修复了退出动画
 
