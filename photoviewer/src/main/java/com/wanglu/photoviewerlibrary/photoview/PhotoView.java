@@ -25,7 +25,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Scroller;
@@ -108,17 +107,20 @@ public class PhotoView extends AppCompatImageView {
                     View viewGroup = (View) getParent();
                     viewGroup.getLocationInWindow(location);
 
-                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", (1f * mImgSize[0]) / (PhotoView.this.getDrawable().getBounds().width()));
+                    Matrix m = new Matrix();
+                    m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
+
+                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m));
                     PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x);
                     PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
-                    ObjectAnimator.ofPropertyValuesHolder(PhotoView.this, p1, p3, p4).setDuration(200).start();
+                    ObjectAnimator.ofPropertyValuesHolder(PhotoView.this,p1, p3, p4).setDuration(200).start();
 
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
                             mExitListener.exit();
                         }
-                    }, 200);
+                    }, 250);
                 } else {
                     ValueAnimator va = ValueAnimator.ofFloat(PhotoView.this.getAlpha(), 1f);
                     ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 255);

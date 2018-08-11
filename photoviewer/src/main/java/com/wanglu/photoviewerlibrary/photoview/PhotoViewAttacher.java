@@ -360,6 +360,10 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         return (float) Math.sqrt((float) Math.pow(getValue(mSuppMatrix, Matrix.MSCALE_X), 2) + (float) Math.pow(getValue(mSuppMatrix, Matrix.MSKEW_Y), 2));
     }
 
+    public float getScale(Matrix matrix){
+        return (float) Math.sqrt((float) Math.pow(getValue(matrix, Matrix.MSCALE_X), 2) + (float) Math.pow(getValue(matrix, Matrix.MSKEW_Y), 2));
+    }
+
     public ScaleType getScaleType() {
         return mScaleType;
     }
@@ -663,7 +667,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     /**
      * Helper method that simply checks the Matrix, and then displays the result
      */
-    private void checkAndDisplayMatrix() {
+    public void checkAndDisplayMatrix() {
         if (checkMatrixBounds()) {
             setImageViewMatrix(getDrawMatrix());
         }
@@ -936,4 +940,5 @@ public class PhotoViewAttacher implements View.OnTouchListener,
             }
         }
     }
+
 }
