@@ -57,7 +57,6 @@ public class PhotoView extends AppCompatImageView {
     float alpha = 1f;
     int intAlpha = 255;
 
-    int height;
 
     public void setExitLocation(int[] exitLocation) {
         mExitLocation = exitLocation;
