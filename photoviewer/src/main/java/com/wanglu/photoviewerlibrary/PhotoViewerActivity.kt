@@ -229,7 +229,7 @@ class PhotoViewerActivity : AppCompatActivity() {
 
                 (iv.parent as View).scrollBy((-dx).toInt(), (-dy).toInt())  // 移动图像
                 alpha -= dy * 0.001f
-                intAlpha -= dy.toInt()
+                intAlpha -= (dy * 0.6).toInt()
                 if (alpha > 1) alpha = 1f
                 else if (alpha < 0) alpha = 0f
                 if (intAlpha < 0) intAlpha = 0
