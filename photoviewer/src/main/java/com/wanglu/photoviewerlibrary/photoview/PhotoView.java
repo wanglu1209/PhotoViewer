@@ -106,7 +106,7 @@ public class PhotoView extends AppCompatImageView {
 
                     m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
 
-                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m)-0.045f);
+                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m)-0.04f);
                     PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x);
                     PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
                     ObjectAnimator.ofPropertyValuesHolder(PhotoView.this,p1, p3, p4).setDuration(200).start();

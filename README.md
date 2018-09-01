@@ -21,7 +21,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.19'
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.20'
 	}
 	
 ```
@@ -61,7 +61,7 @@ PhotoViewer
 
 ## 更新日志
 
-### 0.19
+### 0.20
 重构了代码，简化了调用链，更改了弹出方式（以前为activity，现在改为在当前Activity中增加一个layout），所以退出更顺滑，也不会出现两个activity之间退出的问题
 
 ### 0.18

@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="#000"
-              android:layout_width="match_parent"
-              android:id="@+id/root"
-              android:layout_height="match_parent">
+<com.wanglu.photoviewerlibrary.ViewPagerFixed xmlns:android="http://schemas.android.com/apk/res/android"
+                                              android:id="@+id/mLookPicVP"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="match_parent"
+                                              android:background="@color/transparentColor"/>
 
-    <com.wanglu.photoviewerlibrary.ViewPagerFixed
-        android:id="@+id/mLookPicVP"
-        android:background="@color/transparentColor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</FrameLayout>
