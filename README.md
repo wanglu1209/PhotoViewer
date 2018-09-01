@@ -54,13 +54,15 @@ PhotoViewer
 
 ## Feature
 
+增加弹出动画
 增加加载图片时候的loading
+点击退出时的动画（目前只有滑动退出时有动画效果）
 
 
 ## 更新日志
 
 ### 0.19
-重构了代码，更改了弹出方式（以前为activity，现在改为在当前Activity中增加一个layout），所以退出更顺滑，也不会出现两个activity之间退出的问题
+重构了代码，简化了调用链，更改了弹出方式（以前为activity，现在改为在当前Activity中增加一个layout），所以退出更顺滑，也不会出现两个activity之间退出的问题
 
 ### 0.18
 
