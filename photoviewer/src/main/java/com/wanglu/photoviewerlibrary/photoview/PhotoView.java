@@ -101,15 +101,12 @@ public class PhotoView extends AppCompatImageView {
                 intAlpha = 255;
                 // 这里恢复位置和透明度
                 if (getRootView().getBackground().getAlpha() == 0 && mExitListener != null) {
-                    int[] location = new int[2];
-
-                    View viewGroup = (View) getParent();
-                    viewGroup.getLocationInWindow(location);
 
                     Matrix m = new Matrix();
+
                     m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
 
-                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m));
+                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m)-0.045f);
                     PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x);
                     PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
                     ObjectAnimator.ofPropertyValuesHolder(PhotoView.this,p1, p3, p4).setDuration(200).start();
@@ -119,7 +116,7 @@ public class PhotoView extends AppCompatImageView {
                         public void run() {
                             mExitListener.exit();
                         }
-                    }, 250);
+                    }, 220);
                 } else {
                     ValueAnimator va = ValueAnimator.ofFloat(PhotoView.this.getAlpha(), 1f);
                     ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 255);

@@ -110,9 +110,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 return; // Do not drag if we are already scaling
             }
 
-            mImgCenter[0] += dx;
-            mImgCenter[1] += dy;
-
 
             ViewParent parent = mImageView.getParent();
             // 这里判断向下滑的距离是否大于左右滑
@@ -123,6 +120,9 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 // 判断
                 if (isBottomDrag && getScale() <= DEFAULT_MIN_SCALE && CURRENT_STATE != STATE_SCALE) {
                     CURRENT_STATE = STATE_DRAG;
+
+                    mImgCenter[0] += dx;
+                    mImgCenter[1] += dy;
 
                     mOnViewDragListener.onDrag(dx, dy);
                 }

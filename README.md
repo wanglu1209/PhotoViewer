@@ -21,7 +21,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.17'
+	        implementation 'com.github.wanglu1209:PhotoViewer:0.19'
 	}
 	
 ```
@@ -34,9 +34,7 @@ dependencies {
 PhotoViewer
           .setData(图片链接List<String>)
           .setCurrentPage(现在是哪页)
-          .setPicSpace(图片之间的横距离, 图片之间的竖距离（如果只有一行则写0）)
-          .setCountOfRow(一行几个图片)
-          .setClickView(点击的View)
+          .setImgContainer(img的容器 rv/gv/lv)
           .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
               override fun show(iv: ImageView, url: String) {
                
@@ -54,7 +52,15 @@ PhotoViewer
 
 
 
+## Feature
+
+增加加载图片时候的loading
+
+
 ## 更新日志
+
+### 0.19
+重构了代码，更改了弹出方式（以前为activity，现在改为在当前Activity中增加一个layout），所以退出更顺滑，也不会出现两个activity之间退出的问题
 
 ### 0.18
 

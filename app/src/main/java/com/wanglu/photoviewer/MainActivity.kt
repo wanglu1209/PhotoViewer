@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
             PhotoViewer
                     .setData(picData)
                     .setCurrentPage(position)
-                    .setPicSpace(gv.horizontalSpacing, gv.verticalSpacing)
-                    .setCountOfRow(3)
-                    .setClickView(view)
+                    .setImgContainer(gv)
                     .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
                         override fun show(iv: ImageView, url: String) {
                             Glide.with(iv.context).load(url).into(iv)
