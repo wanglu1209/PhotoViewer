@@ -1,5 +1,19 @@
 # PhotoViewer
 
+<p >
+	<a><img src="https://img.shields.io/github/release/wanglu1209/PhotoViewer.svg"/></a>
+  	<a><img src="https://img.shields.io/github/last-commit/wanglu1209/PhotoViewer.svg"/></a>
+	<a><img src="https://img.shields.io/github/issues/wanglu1209/PhotoViewer.svg"/></a>
+	<a><img src="https://img.shields.io/github/issues-closed/wanglu1209/PhotoViewer.svg"/></a>
+	<a><img src="https://img.shields.io/github/issues-pr/wanglu1209/PhotoViewer.svg"/></a>
+	<a><img src="https://img.shields.io/github/issues-pr-closed/wanglu1209/PhotoViewer.svg"/></a>
+	<a><img src="https://img.shields.io/github/forks/wanglu1209/PhotoViewer.svg"/></a>
+	<a><img src="https://img.shields.io/github/stars/wanglu1209/PhotoViewer.svg"/></a>
+</p>
+
+<div>
+
+
 该图片查看器是模仿微信朋友圈查看图片编写
 
 
@@ -21,7 +35,7 @@ allprojects {
 
 ```Gradle
 dependencies {
-	        implementation 'com.github.wanglu1209:PhotoViewer:0.20'
+	        implementation 'com.github.wanglu1209:PhotoViewer:lastRelease'
 	}
 	
 ```
