@@ -66,9 +66,8 @@ class PhotoViewerFragment : BaseLazyFragment() {
 
 
         mIv.setOnClickListener {
-            if (exitListener != null) {
-                exitListener!!.exit()
-            }
+
+            mIv.exit(mIv.width / 2, mIv.height / 2)
         }
 
     }

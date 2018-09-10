@@ -96,27 +96,11 @@ public class PhotoView extends AppCompatImageView {
         attacher.setOnViewFingerUpListener(new OnViewFingerUpListener() {
             @Override
             public void onViewFingerUp(int x, int y, int dx, int dy) {
-
                 alpha = 1f;
                 intAlpha = 255;
                 // 这里恢复位置和透明度
                 if (getRootView().getBackground().getAlpha() == 0 && mExitListener != null) {
-
-                    Matrix m = new Matrix();
-
-                    m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
-
-                    PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m)-0.04f);
-                    PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x);
-                    PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
-                    ObjectAnimator.ofPropertyValuesHolder(PhotoView.this,p1, p3, p4).setDuration(200).start();
-
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            mExitListener.exit();
-                        }
-                    }, 220);
+                    exit(x, y);
                 } else {
                     ValueAnimator va = ValueAnimator.ofFloat(PhotoView.this.getAlpha(), 1f);
                     ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 255);
@@ -155,6 +139,39 @@ public class PhotoView extends AppCompatImageView {
             }
 
         });
+    }
+
+
+    public void exit(int x, int y) {
+
+        Matrix m = new Matrix();
+
+        m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
+
+        PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m) - 0.05f);
+        PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x - 15);
+        PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
+        ObjectAnimator.ofPropertyValuesHolder(PhotoView.this, p1, p3, p4).setDuration(200).start();
+
+
+        if(getRootView().getBackground().getAlpha() > 50) {
+            ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 50);
+            bgVa.setDuration(200);
+            bgVa.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    getRootView().getBackground().setAlpha((Integer) animation.getAnimatedValue());
+                }
+            });
+            bgVa.start();
+        }
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mExitListener.exit();
+            }
+        }, 220);
     }
 
     public void setRootView(View rootView) {
