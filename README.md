@@ -19,7 +19,6 @@
 
 <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/gif1.gif?raw=true" style="zoom:70%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/gif2.gif?raw=true" style="zoom:70%" />
 
-<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/gif3.gif?raw=true" style="zoom:70%" />
 
 
 
@@ -74,6 +73,9 @@ PhotoViewer
 
 
 ## 更新日志
+
+### 0.30
+重构了view移动的代码，再次重新更改了退出动画，现在贼鸡儿流畅！！！
 
 ### 0.21
 点按退出增加动画效果了，再次更新了退出的位置，效果更好
