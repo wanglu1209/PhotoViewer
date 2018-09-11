@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -48,7 +47,6 @@ object PhotoViewer {
     private var mSelectedDot: View? = null
 
 
-
     interface ShowImageViewInterface {
         fun show(iv: ImageView, url: String)
     }
@@ -84,12 +82,25 @@ object PhotoViewer {
      * 获取itemView
      */
     private fun getItemView(): View {
-        return if (container is AbsListView) {
+        val itemView = if (container is AbsListView) {
             val absListView = container as AbsListView
             absListView.getChildAt(currentPage - absListView.firstVisiblePosition)
         } else {
             (container as RecyclerView).layoutManager.findViewByPosition(currentPage)
         }
+
+        var result: View? = null
+        if (itemView is ViewGroup) {
+            for (i in 0 until itemView.childCount) {
+                if (itemView.getChildAt(i) is ImageView) {
+                    result = itemView.getChildAt(i) as ImageView
+                    break
+                }
+            }
+        } else {
+            result = itemView as ImageView
+        }
+        return result!!
     }
 
     /**
@@ -163,7 +174,7 @@ object PhotoViewer {
 
                 if (mSelectedDot != null && imgData.size > 1) {
                     val dx = mDotGroup!!.getChildAt(1).x - mDotGroup!!.getChildAt(0).x
-                    mSelectedDot!!.translationX = position * dx + positionOffset * dx
+                    mSelectedDot!!.translationX = (position * dx) + positionOffset * dx
                 }
             }
 
@@ -191,7 +202,15 @@ object PhotoViewer {
                 /**
                  * 实例化两个Group
                  */
+                if(mFrameLayout != null) {
+                    mFrameLayout!!.removeAllViews()
+                    mFrameLayout = null
+                }
                 mFrameLayout = FrameLayout(activity)
+                if(mDotGroup != null) {
+                    mDotGroup!!.removeAllViews()
+                    mDotGroup = null
+                }
                 mDotGroup = LinearLayout(activity)
 
                 if (mDotGroup!!.childCount != 0)
@@ -235,7 +254,9 @@ object PhotoViewer {
                 frameLayout.addView(mDotGroup, params)
 
                 mDotGroup!!.post {
-
+                    if(mSelectedDot != null){
+                        mSelectedDot = null
+                    }
                     if (mSelectedDot == null) {
                         val iv = ImageView(activity)
                         iv.setImageDrawable(activity.resources.getDrawable(mDot[1]))
@@ -243,7 +264,8 @@ object PhotoViewer {
                         /**
                          * 设置选中小圆点的左边距
                          */
-                        params.leftMargin = mDotGroup!!.getChildAt(0).x.toInt() + dotParams.rightMargin * currentPage + mDotGroup!!.getChildAt(0).width * currentPage
+                        params.leftMargin = mDotGroup!!.getChildAt(0).x.toInt()
+                        iv.translationX = (dotParams.rightMargin * currentPage + mDotGroup!!.getChildAt(0).width * currentPage).toFloat()
                         params.gravity = Gravity.BOTTOM
                         mFrameLayout!!.addView(iv, params)
                         mSelectedDot = iv
@@ -254,8 +276,8 @@ object PhotoViewer {
                     frameLayout.addView(mFrameLayout, params)
                 }
             }
-
         decorView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
     }
 
 

@@ -100,7 +100,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private boolean mZoomEnabled = true;
     private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
-    private float[] mImgCenter = new float[2];  // 当前图片的中心点，退出时用
 
 
     private OnGestureListener onGestureListener = new OnGestureListener() {
@@ -120,9 +119,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                 // 判断
                 if (isBottomDrag && getScale() <= DEFAULT_MIN_SCALE && CURRENT_STATE != STATE_SCALE) {
                     CURRENT_STATE = STATE_DRAG;
-
-                    mImgCenter[0] += dx;
-                    mImgCenter[1] += dy;
 
                     mOnViewDragListener.onDrag(dx, dy);
                 }
@@ -174,14 +170,6 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
     public PhotoViewAttacher(ImageView imageView) {
         mImageView = imageView;
-        mImageView.post(new Runnable() {
-            @Override
-            public void run() {
-
-                mImgCenter[0] = mImageView.getWidth() / 2 + mImageView.getLeft();
-                mImgCenter[1] = mImageView.getHeight() / 2 + mImageView.getTop();
-            }
-        });
         imageView.setOnTouchListener(this);
         imageView.addOnLayoutChangeListener(this);
 
@@ -444,7 +432,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                                 isBottomDrag = false;
                                 if (CURRENT_STATE != STATE_SCALE) {
 
-                                    mOnViewFingerUpListener.onViewFingerUp((int) mImgCenter[0], (int) mImgCenter[1], (int) downX, (int) downY);
+                                    mOnViewFingerUpListener.onViewFingerUp();
                                 }
                             }
 

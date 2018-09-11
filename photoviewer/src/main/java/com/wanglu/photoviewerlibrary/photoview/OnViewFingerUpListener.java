@@ -5,5 +5,5 @@ package com.wanglu.photoviewerlibrary.photoview;
  */
 
 public interface OnViewFingerUpListener {
-    void onViewFingerUp(int x, int y, int dx, int dy);
+    void onViewFingerUp();
 }

@@ -16,7 +16,5 @@
         android:gravity="center"
         android:layout_height="wrap_content"
         android:numColumns="3"
-        android:layout_gravity="center"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"/>
+        android:layout_gravity="center"/>
 </FrameLayout>

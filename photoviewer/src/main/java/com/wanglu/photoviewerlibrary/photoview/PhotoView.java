@@ -15,8 +15,8 @@
  *******************************************************************************/
 package com.wanglu.photoviewerlibrary.photoview;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Matrix;
@@ -95,12 +95,12 @@ public class PhotoView extends AppCompatImageView {
         }
         attacher.setOnViewFingerUpListener(new OnViewFingerUpListener() {
             @Override
-            public void onViewFingerUp(int x, int y, int dx, int dy) {
+            public void onViewFingerUp() {
                 alpha = 1f;
                 intAlpha = 255;
                 // 这里恢复位置和透明度
                 if (getRootView().getBackground().getAlpha() == 0 && mExitListener != null) {
-                    exit(x, y);
+                    exit();
                 } else {
                     ValueAnimator va = ValueAnimator.ofFloat(PhotoView.this.getAlpha(), 1f);
                     ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 255);
@@ -122,12 +122,11 @@ public class PhotoView extends AppCompatImageView {
                     });
                     bgVa.start();
 
-                    View viewGroup = (View) getParent();
                     mScroller.startScroll(
-                            viewGroup.getScrollX(),
-                            viewGroup.getScrollY(),
-                            -viewGroup.getScrollX(),
-                            -viewGroup.getScrollY(), 200
+                            getScrollX(),
+                            getScrollY(),
+                            -getScrollX(),
+                            -getScrollY(), 200
                     );
 
 
@@ -142,21 +141,25 @@ public class PhotoView extends AppCompatImageView {
     }
 
 
-    public void exit(int x, int y) {
+    public void exit() {
 
         Matrix m = new Matrix();
 
         m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
 
-        PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("scale", attacher.getScale(m) - 0.05f);
-        PropertyValuesHolder p3 = PropertyValuesHolder.ofFloat("translationX", mExitLocation[0] - x - 15);
-        PropertyValuesHolder p4 = PropertyValuesHolder.ofFloat("translationY", mExitLocation[1] - y);
-        ObjectAnimator.ofPropertyValuesHolder(PhotoView.this, p1, p3, p4).setDuration(200).start();
+        ObjectAnimator scaleOa = ObjectAnimator.ofFloat(this,"scale", attacher.getScale(m));
+
+        ObjectAnimator xOa = ObjectAnimator.ofFloat(this, "translationX",  mExitLocation[0] - getWidth() / 2 + getScrollX());
+        ObjectAnimator yOa = ObjectAnimator.ofFloat(this, "translationY",  mExitLocation[1] - getHeight() / 2  + getScrollY());
+
+        AnimatorSet set = new AnimatorSet();
+        set.setDuration(350);
+        set.playTogether(scaleOa, xOa, yOa);
 
 
-        if(getRootView().getBackground().getAlpha() > 50) {
-            ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 50);
-            bgVa.setDuration(200);
+        if (getRootView().getBackground().getAlpha() > 0) {
+            ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 0);
+            bgVa.setDuration(350);
             bgVa.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -165,13 +168,14 @@ public class PhotoView extends AppCompatImageView {
             });
             bgVa.start();
         }
+        set.start();
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 mExitListener.exit();
             }
-        }, 220);
+        }, 370);
     }
 
     public void setRootView(View rootView) {
@@ -403,7 +407,7 @@ public class PhotoView extends AppCompatImageView {
     public void computeScroll() {
         super.computeScroll();
         if (mScroller.computeScrollOffset()) {
-            ((View) getParent()).scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             postInvalidate();
         }
     }
