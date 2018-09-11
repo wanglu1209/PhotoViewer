@@ -196,7 +196,6 @@ object PhotoViewer {
                 currentPage = position
 
                 val b = Bundle()
-                Log.d("112233", "111111111111111")
                 b.putString("pic_data", imgData[currentPage])
                 b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
                 b.putBoolean("in_anim", false)
