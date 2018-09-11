@@ -16,10 +16,10 @@
 
 该图片查看器是模仿微信朋友圈查看图片编写
 
+<div>
+<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif1.gif?raw=true" style="zoom:40%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif2.gif?raw=true" style="zoom:40%" />
 
-<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif1.gif?raw=true" style="zoom:40%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif2.gif?raw=true" style="zoom:40%" />
-
-
+</div>
 
 
 ```Gradle
