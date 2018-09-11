@@ -153,13 +153,13 @@ public class PhotoView extends AppCompatImageView {
         ObjectAnimator yOa = ObjectAnimator.ofFloat(this, "translationY",  mExitLocation[1] - getHeight() / 2  + getScrollY());
 
         AnimatorSet set = new AnimatorSet();
-        set.setDuration(350);
+        set.setDuration(250);
         set.playTogether(scaleOa, xOa, yOa);
 
 
         if (getRootView().getBackground().getAlpha() > 0) {
             ValueAnimator bgVa = ValueAnimator.ofInt(getRootView().getBackground().getAlpha(), 0);
-            bgVa.setDuration(350);
+            bgVa.setDuration(250);
             bgVa.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -175,7 +175,7 @@ public class PhotoView extends AppCompatImageView {
             public void run() {
                 mExitListener.exit();
             }
-        }, 370);
+        }, 250);
     }
 
     public void setRootView(View rootView) {

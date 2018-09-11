@@ -1,11 +1,14 @@
 package com.wanglu.photoviewerlibrary
 
+import android.animation.LayoutTransition
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -135,13 +138,21 @@ object PhotoViewer {
 
     private fun show(activity: AppCompatActivity) {
 
+
         val decorView = activity.window.decorView as ViewGroup
+        // 设置添加layout的动画
+        val layoutTransition = LayoutTransition()
+        val alphaOa = ObjectAnimator.ofFloat(null, "alpha", 0f, 1f)
+        alphaOa.duration = 50
+        layoutTransition.setAnimator(LayoutTransition.APPEARING, alphaOa)
+        decorView.layoutTransition = layoutTransition
+
         val frameLayout = FrameLayout(activity)
 
         val photoViewLayout = LayoutInflater.from(activity).inflate(R.layout.activity_photoviewer, null)
         val viewPager = photoViewLayout.findViewById<ViewPager>(R.id.mLookPicVP)
 
-        val fragments = mutableListOf<PhotoViewerFragment>()
+        var fragments = mutableListOf<PhotoViewerFragment>()
         for (i in 0 until imgData.size) {
             val f = PhotoViewerFragment()
             f.exitListener = object : PhotoViewerFragment.OnExitListener {
@@ -149,6 +160,7 @@ object PhotoViewer {
                     activity.runOnUiThread {
                         frameLayout.removeAllViews()
                         decorView.removeView(frameLayout)
+                        fragments.clear()
                     }
                 }
 
@@ -164,6 +176,8 @@ object PhotoViewer {
         val adapter = PhotoViewerPagerAdapter(fragments, activity.supportFragmentManager)
 
 
+        viewPager.adapter = adapter
+        viewPager.currentItem = currentPage
         viewPager.offscreenPageLimit = 100
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -182,8 +196,10 @@ object PhotoViewer {
                 currentPage = position
 
                 val b = Bundle()
+                Log.d("112233", "111111111111111")
                 b.putString("pic_data", imgData[currentPage])
                 b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
+                b.putBoolean("in_anim", false)
                 b.putIntArray("exit_location", getCurrentViewLocation())
                 fragments[position].arguments = b
 
@@ -191,8 +207,6 @@ object PhotoViewer {
 
         })
 
-        viewPager.adapter = adapter
-        viewPager.currentItem = currentPage
         frameLayout.addView(photoViewLayout)
 
 
@@ -202,12 +216,12 @@ object PhotoViewer {
                 /**
                  * 实例化两个Group
                  */
-                if(mFrameLayout != null) {
+                if (mFrameLayout != null) {
                     mFrameLayout!!.removeAllViews()
                     mFrameLayout = null
                 }
                 mFrameLayout = FrameLayout(activity)
-                if(mDotGroup != null) {
+                if (mDotGroup != null) {
                     mDotGroup!!.removeAllViews()
                     mDotGroup = null
                 }
@@ -254,7 +268,7 @@ object PhotoViewer {
                 frameLayout.addView(mDotGroup, params)
 
                 mDotGroup!!.post {
-                    if(mSelectedDot != null){
+                    if (mSelectedDot != null) {
                         mSelectedDot = null
                     }
                     if (mSelectedDot == null) {

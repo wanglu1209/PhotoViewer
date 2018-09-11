@@ -2,8 +2,5 @@
           package="com.wanglu.photoviewerlibrary">
 
     <application>
-        <activity
-            android:name=".PhotoViewerActivity"
-            android:theme="@style/AppTransparentTheme"/>
     </application>
 </manifest>

@@ -1,5 +1,7 @@
 package com.wanglu.photoviewerlibrary
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,20 @@ class PhotoViewerFragment : BaseLazyFragment() {
                 exitListener!!.exit()
             }
         }
+
+        // 添加点击进入时的动画
+        if(arguments!!.getBoolean("in_anim", true))
+            mIv.post {
+
+                val scaleOa = ObjectAnimator.ofFloat(mIv, "scale", mImgSize[0].toFloat() / mIv.width, 1f)
+                val xOa = ObjectAnimator.ofFloat(mIv, "translationX", mExitLocation[0].toFloat() - mIv.width / 2, 0f)
+                val yOa = ObjectAnimator.ofFloat(mIv, "translationY", mExitLocation[1].toFloat() - mIv.height / 2, 0f)
+
+                val set = AnimatorSet()
+                set.duration = 150
+                set.playTogether(scaleOa, xOa, yOa)
+                set.start()
+            }
 
 
         mIv.setOnViewDragListener { dx, dy ->
