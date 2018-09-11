@@ -17,7 +17,8 @@
 该图片查看器是模仿微信朋友圈查看图片编写
 
 <div>
-<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif1.gif?raw=true" style="zoom:40%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif2.gif?raw=true" style="zoom:40%" />
+<img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif3.gif?raw=true" style="zoom:40%" /> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif1.gif?raw=true" style="zoom:40%" />
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://github.com/wanglu1209/PhotoViewer/blob/master/gif/new_gif2.gif?raw=true" style="zoom:40%" />
 
 </div>
 
@@ -67,12 +68,15 @@ PhotoViewer
 
 ## Feature
 
-- 增加弹出动画
+- ~~增加弹出动画~~（完成）
 - 增加加载图片时候的loading
 - ~~点击退出时的动画（目前只有滑动退出时有动画效果）~~（完成）
 
 
 ## 更新日志
+
+### 0.31
+增加了弹出动画！
 
 ### 0.30
 重构了view移动的代码，再次重新更改了退出动画，现在贼鸡儿流畅！！！
