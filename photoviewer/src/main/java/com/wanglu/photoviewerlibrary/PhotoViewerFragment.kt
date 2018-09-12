@@ -38,6 +38,19 @@ class PhotoViewerFragment : BaseLazyFragment() {
         mIv.setExitLocation(mExitLocation)
         mIv.setImgSize(mImgSize)
 
+        // 循环查看是否添加上了图片
+        Thread(Runnable {
+            while(true){
+                if(mIv.drawable != null){
+                    activity!!.runOnUiThread {
+                        loading.visibility = View.GONE
+                    }
+                    break
+                }
+                Thread.sleep(100)
+            }
+        }).start()
+
         var intAlpha = 255
         root.background.alpha = intAlpha
         mIv.rootView = root
