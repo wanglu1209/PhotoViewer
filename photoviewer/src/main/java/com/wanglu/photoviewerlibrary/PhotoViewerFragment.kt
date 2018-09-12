@@ -28,7 +28,12 @@ class PhotoViewerFragment : BaseLazyFragment() {
         val mImgSize: IntArray = arguments!!.getIntArray("img_size")
         val mPicData = arguments!!.getString("pic_data")
 
-        PhotoViewer.mInterface!!.show(mIv, mPicData)
+        if(PhotoViewer.mInterface != null){
+            PhotoViewer.mInterface!!.show(mIv, mPicData)
+        }else{
+            throw RuntimeException("请设置图片加载回调 ShowImageViewInterface")
+        }
+
         var alpha = 1f  // 透明度
         mIv.setExitLocation(mExitLocation)
         mIv.setImgSize(mImgSize)

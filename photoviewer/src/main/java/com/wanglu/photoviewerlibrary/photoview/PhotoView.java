@@ -175,7 +175,7 @@ public class PhotoView extends AppCompatImageView {
             public void run() {
                 mExitListener.exit();
             }
-        }, 250);
+        }, 270);
     }
 
     public void setRootView(View rootView) {

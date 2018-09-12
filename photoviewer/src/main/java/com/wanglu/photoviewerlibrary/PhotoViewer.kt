@@ -3,6 +3,7 @@ package com.wanglu.photoviewerlibrary
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
@@ -29,6 +30,8 @@ object PhotoViewer {
     private lateinit var imgData: ArrayList<String> // 图片数据
     private lateinit var container: ViewGroup   // 存放图片的容器， ListView/GridView/RecyclerView
     private var currentPage = 0    // 当前页
+
+    private var clickView: View? = null //点击那一张图片时候的view
 
     /**
      * 小圆点的drawable
@@ -62,6 +65,14 @@ object PhotoViewer {
         return this
     }
 
+    /**
+     * 设置点击一个图片
+     */
+    fun setClickSingleImg(data: String, view: View): PhotoViewer {
+        imgData = arrayListOf(data)
+        clickView = view
+        return this
+    }
 
     /**
      * 设置图片数据
@@ -70,6 +81,7 @@ object PhotoViewer {
         imgData = data
         return this
     }
+
 
     fun setImgContainer(container: AbsListView): PhotoViewer {
         this.container = container
@@ -85,25 +97,29 @@ object PhotoViewer {
      * 获取itemView
      */
     private fun getItemView(): View {
-        val itemView = if (container is AbsListView) {
-            val absListView = container as AbsListView
-            absListView.getChildAt(currentPage - absListView.firstVisiblePosition)
-        } else {
-            (container as RecyclerView).layoutManager.findViewByPosition(currentPage)
-        }
-
-        var result: View? = null
-        if (itemView is ViewGroup) {
-            for (i in 0 until itemView.childCount) {
-                if (itemView.getChildAt(i) is ImageView) {
-                    result = itemView.getChildAt(i) as ImageView
-                    break
-                }
+        if(clickView == null) {
+            val itemView = if (container is AbsListView) {
+                val absListView = container as AbsListView
+                absListView.getChildAt(currentPage - absListView.firstVisiblePosition)
+            } else {
+                (container as RecyclerView).layoutManager.findViewByPosition(currentPage)
             }
-        } else {
-            result = itemView as ImageView
+
+            var result: View? = null
+            if (itemView is ViewGroup) {
+                for (i in 0 until itemView.childCount) {
+                    if (itemView.getChildAt(i) is ImageView) {
+                        result = itemView.getChildAt(i) as ImageView
+                        break
+                    }
+                }
+            } else {
+                result = itemView as ImageView
+            }
+            return result!!
+        }else{
+            return clickView!!
         }
-        return result!!
     }
 
     /**
