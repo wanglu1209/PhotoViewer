@@ -41,7 +41,7 @@ dependencies {
 
 ## 使用
 
-
+点击多张图片（类似微信朋友圈查看图片）
 
 ```Kotlin
 PhotoViewer
@@ -58,6 +58,18 @@ PhotoViewer
           .start(this)
 ```
 
+只点击一张图片时（类似点击查看头像）
+
+```Kotlin
+PhotoViewer
+          .setClickSingleImg(url, iv)   //因为本框架不参与加载图片，所以还是要写回调方法
+          .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
+              override fun show(iv: ImageView, url: String) {
+                  Glide.with(iv.context).load(url).into(iv)
+              }
+          })
+          .start(this)
+```
 
 代码中，`photoview`文件夹为**chrisbanes**大神的[PhotoView](https://github.com/chrisbanes/PhotoView)
 
@@ -73,6 +85,9 @@ PhotoViewer
 
 
 ## 更新日志
+
+### 0.32
+增加了点击一张图片的方法
 
 ### 0.31
 增加了弹出动画！
