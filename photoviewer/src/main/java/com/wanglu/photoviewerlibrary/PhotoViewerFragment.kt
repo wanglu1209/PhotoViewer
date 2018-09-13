@@ -3,6 +3,7 @@ package com.wanglu.photoviewerlibrary
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +29,9 @@ class PhotoViewerFragment : BaseLazyFragment() {
         val mImgSize: IntArray = arguments!!.getIntArray("img_size")
         val mPicData = arguments!!.getString("pic_data")
 
-        if(PhotoViewer.mInterface != null){
+        if (PhotoViewer.mInterface != null) {
             PhotoViewer.mInterface!!.show(mIv, mPicData)
-        }else{
+        } else {
             throw RuntimeException("请设置图片加载回调 ShowImageViewInterface")
         }
 
@@ -40,8 +41,8 @@ class PhotoViewerFragment : BaseLazyFragment() {
 
         // 循环查看是否添加上了图片
         Thread(Runnable {
-            while(true){
-                if(mIv.drawable != null){
+            while (true) {
+                if (mIv.drawable != null) {
                     activity!!.runOnUiThread {
                         loading.visibility = View.GONE
                     }
@@ -67,7 +68,7 @@ class PhotoViewerFragment : BaseLazyFragment() {
         }
 
         // 添加点击进入时的动画
-        if(arguments!!.getBoolean("in_anim", true))
+        if (arguments!!.getBoolean("in_anim", true))
             mIv.post {
 
                 val scaleOa = ObjectAnimator.ofFloat(mIv, "scale", mImgSize[0].toFloat() / mIv.width, 1f)
@@ -80,6 +81,18 @@ class PhotoViewerFragment : BaseLazyFragment() {
                 set.start()
             }
 
+
+        root.isFocusableInTouchMode = true
+        root.requestFocus()
+        root.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                mIv.exit()
+
+                return@OnKeyListener true
+            }
+            false
+        })
 
         mIv.setOnViewDragListener { dx, dy ->
 

@@ -86,6 +86,9 @@ PhotoViewer
 
 ## 更新日志
 
+### 0.34
+增加了返回按钮监听
+
 ### 0.33
 增加了简单的loading，loading颜色是根据主model的colorAccent来改变的，暂时不能自己设置颜色
 

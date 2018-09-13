@@ -10,14 +10,13 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AbsListView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.wanglu.photoviewerlibrary.R.id.mIv
+import kotlinx.android.synthetic.main.item_picture.*
 
 
 @SuppressLint("StaticFieldLeak")
@@ -156,6 +155,9 @@ object PhotoViewer {
 
 
         val decorView = activity.window.decorView as ViewGroup
+
+
+
         // 设置添加layout的动画
         val layoutTransition = LayoutTransition()
         val alphaOa = ObjectAnimator.ofFloat(null, "alpha", 0f, 1f)
@@ -169,6 +171,8 @@ object PhotoViewer {
         val viewPager = photoViewLayout.findViewById<ViewPager>(R.id.mLookPicVP)
 
         var fragments = mutableListOf<PhotoViewerFragment>()
+
+
         for (i in 0 until imgData.size) {
             val f = PhotoViewerFragment()
             f.exitListener = object : PhotoViewerFragment.OnExitListener {
