@@ -3,20 +3,19 @@ package com.wanglu.photoviewerlibrary
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.wanglu.photoviewerlibrary.R.id.mIv
-import kotlinx.android.synthetic.main.item_picture.*
 
 
 @SuppressLint("StaticFieldLeak")
@@ -155,7 +154,6 @@ object PhotoViewer {
 
 
         val decorView = activity.window.decorView as ViewGroup
-
 
 
         // 设置添加layout的动画

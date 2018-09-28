@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
 import android.widget.Scroller;
@@ -147,10 +148,10 @@ public class PhotoView extends AppCompatImageView {
 
         m.postScale(((float) mImgSize[0] / getWidth()), ((float) mImgSize[1] / getHeight()));
 
-        ObjectAnimator scaleOa = ObjectAnimator.ofFloat(this,"scale", attacher.getScale(m));
+        ObjectAnimator scaleOa = ObjectAnimator.ofFloat(this, "scale", attacher.getScale(m));
 
-        ObjectAnimator xOa = ObjectAnimator.ofFloat(this, "translationX",  mExitLocation[0] - getWidth() / 2 + getScrollX());
-        ObjectAnimator yOa = ObjectAnimator.ofFloat(this, "translationY",  mExitLocation[1] - getHeight() / 2  + getScrollY());
+        ObjectAnimator xOa = ObjectAnimator.ofFloat(this, "translationX", mExitLocation[0] - getWidth() / 2 + getScrollX());
+        ObjectAnimator yOa = ObjectAnimator.ofFloat(this, "translationY", mExitLocation[1] - getHeight() / 2 + getScrollY());
 
         AnimatorSet set = new AnimatorSet();
         set.setDuration(250);
