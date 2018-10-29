@@ -16,6 +16,7 @@ import android.widget.AbsListView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import java.lang.ref.WeakReference
 
 
 @SuppressLint("StaticFieldLeak")
@@ -26,10 +27,10 @@ object PhotoViewer {
     internal var mInterface: ShowImageViewInterface? = null
 
     private lateinit var imgData: ArrayList<String> // 图片数据
-    private lateinit var container: ViewGroup   // 存放图片的容器， ListView/GridView/RecyclerView
+    private lateinit var container: WeakReference<ViewGroup>   // 存放图片的容器， ListView/GridView/RecyclerView
     private var currentPage = 0    // 当前页
 
-    private var clickView: View? = null //点击那一张图片时候的view
+    private var clickView: WeakReference<View> ? = null //点击那一张图片时候的view
 
     /**
      * 小圆点的drawable
@@ -37,18 +38,6 @@ object PhotoViewer {
      * 下标1的为已经被选中的
      */
     private val mDot = intArrayOf(R.drawable.no_selected_dot, R.drawable.selected_dot)
-    /**
-     * 存放小圆点的Group
-     */
-    private var mDotGroup: LinearLayout? = null
-    /**
-     * 存放没有被选中的小圆点Group和已经被选中小圆点
-     */
-    private var mFrameLayout: FrameLayout? = null
-    /**
-     * 选中的小圆点
-     */
-    private var mSelectedDot: View? = null
 
 
     interface ShowImageViewInterface {
@@ -68,7 +57,7 @@ object PhotoViewer {
      */
     fun setClickSingleImg(data: String, view: View): PhotoViewer {
         imgData = arrayListOf(data)
-        clickView = view
+        clickView = WeakReference(view)
         return this
     }
 
@@ -82,12 +71,12 @@ object PhotoViewer {
 
 
     fun setImgContainer(container: AbsListView): PhotoViewer {
-        this.container = container
+        this.container = WeakReference(container)
         return this
     }
 
     fun setImgContainer(container: RecyclerView): PhotoViewer {
-        this.container = container
+        this.container = WeakReference(container)
         return this
     }
 
@@ -96,11 +85,11 @@ object PhotoViewer {
      */
     private fun getItemView(): View {
         if(clickView == null) {
-            val itemView = if (container is AbsListView) {
-                val absListView = container as AbsListView
+            val itemView = if (container.get() is AbsListView) {
+                val absListView = container.get() as AbsListView
                 absListView.getChildAt(currentPage - absListView.firstVisiblePosition)
             } else {
-                (container as RecyclerView).layoutManager.findViewByPosition(currentPage)
+                (container.get() as RecyclerView).layoutManager.findViewByPosition(currentPage)
             }
 
             var result: View? = null
@@ -116,7 +105,7 @@ object PhotoViewer {
             }
             return result!!
         }else{
-            return clickView!!
+            return clickView!!.get()!!
         }
     }
 
@@ -168,7 +157,21 @@ object PhotoViewer {
         val photoViewLayout = LayoutInflater.from(activity).inflate(R.layout.activity_photoviewer, null)
         val viewPager = photoViewLayout.findViewById<ViewPager>(R.id.mLookPicVP)
 
-        var fragments = mutableListOf<PhotoViewerFragment>()
+        val fragments = mutableListOf<PhotoViewerFragment>()
+        /**
+         * 存放小圆点的Group
+         */
+        var mDotGroup: LinearLayout? = null
+
+        /**
+         * 存放没有被选中的小圆点Group和已经被选中小圆点
+         */
+        var mFrameLayout: FrameLayout? = null
+        /**
+         * 选中的小圆点
+         */
+        var mSelectedDot: View? = null
+
 
 
         for (i in 0 until imgData.size) {
@@ -176,9 +179,11 @@ object PhotoViewer {
             f.exitListener = object : PhotoViewerFragment.OnExitListener {
                 override fun exit() {
                     activity.runOnUiThread {
+                        mDotGroup!!.removeAllViews()
                         frameLayout.removeAllViews()
                         decorView.removeView(frameLayout)
                         fragments.clear()
+                        activity.isDestroyed
                     }
                 }
 
