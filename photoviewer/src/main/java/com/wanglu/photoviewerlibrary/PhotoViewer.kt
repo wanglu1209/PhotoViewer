@@ -30,7 +30,7 @@ object PhotoViewer {
     private lateinit var container: WeakReference<ViewGroup>   // 存放图片的容器， ListView/GridView/RecyclerView
     private var currentPage = 0    // 当前页
 
-    private var clickView: WeakReference<View> ? = null //点击那一张图片时候的view
+    private var clickView: WeakReference<View>? = null //点击那一张图片时候的view
 
     /**
      * 小圆点的drawable
@@ -84,7 +84,7 @@ object PhotoViewer {
      * 获取itemView
      */
     private fun getItemView(): View {
-        if(clickView == null) {
+        if (clickView == null) {
             val itemView = if (container.get() is AbsListView) {
                 val absListView = container.get() as AbsListView
                 absListView.getChildAt(currentPage - absListView.firstVisiblePosition)
@@ -104,7 +104,7 @@ object PhotoViewer {
                 result = itemView as ImageView
             }
             return result!!
-        }else{
+        } else {
             return clickView!!.get()!!
         }
     }
@@ -179,7 +179,8 @@ object PhotoViewer {
             f.exitListener = object : PhotoViewerFragment.OnExitListener {
                 override fun exit() {
                     activity.runOnUiThread {
-                        mDotGroup!!.removeAllViews()
+                        if (mDotGroup != null)
+                            mDotGroup!!.removeAllViews()
                         frameLayout.removeAllViews()
                         decorView.removeView(frameLayout)
                         fragments.clear()
