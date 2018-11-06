@@ -31,6 +31,7 @@ allprojects {
 	}
 	
 ```
+lastRelease：<a><img src="https://img.shields.io/github/release/wanglu1209/PhotoViewer.svg"/></a>
 
 ```Gradle
 dependencies {
@@ -86,7 +87,12 @@ PhotoViewer
 
 ## 更新日志
 
+### 0.37
+
+minSDK改为14
+
 ### 0.36
+
 增加view的判空处理，解决由小圆点引发的闪退问题
 
 
