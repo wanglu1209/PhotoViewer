@@ -87,7 +87,7 @@ PhotoViewer
 
 ## 更新日志
 
-### 0.38
+### 0.39
 
 解决了滑到的图片不在屏幕中显示的时候，RecyclerView获取不到ItemView报错的问题
 
