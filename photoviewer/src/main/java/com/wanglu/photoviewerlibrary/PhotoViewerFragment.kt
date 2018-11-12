@@ -76,7 +76,7 @@ class PhotoViewerFragment : BaseLazyFragment() {
                 val yOa = ObjectAnimator.ofFloat(mIv, "translationY", mExitLocation[1].toFloat() - mIv.height / 2, 0f)
 
                 val set = AnimatorSet()
-                set.duration = 150
+                set.duration = 250
                 set.playTogether(scaleOa, xOa, yOa)
                 set.start()
             }

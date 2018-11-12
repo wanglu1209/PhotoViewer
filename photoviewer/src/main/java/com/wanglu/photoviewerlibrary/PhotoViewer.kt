@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -17,6 +19,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import java.lang.ref.WeakReference
+import java.util.*
+import kotlin.concurrent.timerTask
 
 
 @SuppressLint("StaticFieldLeak")
@@ -184,7 +188,6 @@ object PhotoViewer {
                         frameLayout.removeAllViews()
                         decorView.removeView(frameLayout)
                         fragments.clear()
-                        activity.isDestroyed
                     }
                 }
 
@@ -219,12 +222,33 @@ object PhotoViewer {
             override fun onPageSelected(position: Int) {
                 currentPage = position
 
-                val b = Bundle()
-                b.putString("pic_data", imgData[currentPage])
-                b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
-                b.putBoolean("in_anim", false)
-                b.putIntArray("exit_location", getCurrentViewLocation())
-                fragments[position].arguments = b
+
+                /**
+                 * 解决RecyclerView获取不到itemView的问题
+                 * 如果滑到的view不在当前页面显示，那么则滑动到那个position，再获取itemView
+                 */
+                if (container.get() !is AbsListView) {
+                    val layoutManager = (container as RecyclerView).layoutManager
+                    if (layoutManager is LinearLayoutManager) {
+                        if (currentPage < layoutManager.findFirstVisibleItemPosition() || currentPage > layoutManager.findLastVisibleItemPosition()) {
+                            layoutManager.scrollToPosition(currentPage)
+                        }
+                    } else if (layoutManager is GridLayoutManager) {
+                        if (currentPage < layoutManager.findFirstVisibleItemPosition() || currentPage > layoutManager.findLastVisibleItemPosition()) {
+                            layoutManager.scrollToPosition(currentPage)
+                        }
+                    }
+                }
+
+                // 这里延时0.2s是为了解决上面👆的问题。因为如果刚调用ScrollToPosition方法，就获取itemView是获取不到的，所以要延时一下
+                Timer().schedule(timerTask {
+                    val b = Bundle()
+                    b.putString("pic_data", imgData[currentPage])
+                    b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
+                    b.putBoolean("in_anim", false)
+                    b.putIntArray("exit_location", getCurrentViewLocation())
+                    fragments[position].arguments = b
+                }, 200)
 
             }
 
