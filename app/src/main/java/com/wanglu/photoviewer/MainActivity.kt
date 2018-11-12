@@ -2,6 +2,7 @@ package com.wanglu.photoviewer
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.wanglu.photoviewerlibrary.PhotoViewer
@@ -40,39 +41,51 @@ class MainActivity : AppCompatActivity() {
                 "https://qiniucdn.fairyever.com/15149577854174.png",
                 "https://qiniucdn.fairyever.com/15149579640159.jpg",
                 "https://qiniucdn.fairyever.com/15149577854174.png",
+                "https://qiniucdn.fairyever.com/15149579640159.jpg",
+                "https://qiniucdn.fairyever.com/15149577854174.png",
+                "https://qiniucdn.fairyever.com/15149579640159.jpg",
+                "https://qiniucdn.fairyever.com/15149577854174.png",
+                "https://qiniucdn.fairyever.com/15149579640159.jpg",
+                "https://qiniucdn.fairyever.com/15149577854174.png",
+                "https://qiniucdn.fairyever.com/15149579640159.jpg",
+                "https://qiniucdn.fairyever.com/15149577854174.png",
+                "https://qiniucdn.fairyever.com/15149579640159.jpg",
+                "https://qiniucdn.fairyever.com/15149577854174.png",
+                "https://qiniucdn.fairyever.com/15149579640159.jpg",
+                "https://qiniucdn.fairyever.com/15149577854174.png",
                 "https://qiniucdn.fairyever.com/15248077829234.jpg"
         )
 
-//        val adapter = RvAdapter(R.layout.item_img, picData)
-        val adapter = GvAdapter(this)
+        val adapter = RvAdapter(R.layout.item_img, picData)
+//        val adapter = GvAdapter(this)
         gv.adapter = adapter
-        adapter.setData(picData)
-        gv.setOnItemClickListener { _, view, position, _ ->
-            PhotoViewer
-                    .setData(picData)
-                    .setCurrentPage(position)
-                    .setImgContainer(gv)
-                    .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
-                        override fun show(iv: ImageView, url: String) {
-                            Glide.with(iv.context).load(url).into(iv)
-                        }
-                    })
-                    .start(this)
-        }
-
-//        gv.layoutManager = GridLayoutManager(this, 3)
-//        adapter.setOnItemClickListener { adapter, view, position ->
+//        adapter.setData(picData)
+//        gv.setOnItemClickListener { _, view, position, _ ->
 //            PhotoViewer
 //                    .setData(picData)
-//                    .setImgContainer(gv)
 //                    .setCurrentPage(position)
+//                    .setImgContainer(gv)
 //                    .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
 //                        override fun show(iv: ImageView, url: String) {
 //                            Glide.with(iv.context).load(url).into(iv)
 //                        }
 //                    })
-//                    .start( this)
+//                    .start(this)
 //        }
+
+        gv.layoutManager = GridLayoutManager(this, 3)
+        adapter.setOnItemClickListener { adapter, view, position ->
+            PhotoViewer
+                    .setData(picData)
+                    .setImgContainer(gv)
+                    .setCurrentPage(position)
+                    .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
+                        override fun show(iv: ImageView, url: String) {
+                            Glide.with(iv.context).load(url).into(iv)
+                        }
+                    })
+                    .start( this)
+        }
 //        Timer().schedule(timerTask {
 //            runOnUiThread {
 //                gv.layoutManager.scrollToPosition(8)

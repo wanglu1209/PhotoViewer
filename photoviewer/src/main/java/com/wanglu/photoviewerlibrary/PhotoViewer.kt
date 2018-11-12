@@ -228,7 +228,7 @@ object PhotoViewer {
                  * 如果滑到的view不在当前页面显示，那么则滑动到那个position，再获取itemView
                  */
                 if (container.get() !is AbsListView) {
-                    val layoutManager = (container as RecyclerView).layoutManager
+                    val layoutManager = (container.get() as RecyclerView).layoutManager
                     if (layoutManager is LinearLayoutManager) {
                         if (currentPage < layoutManager.findFirstVisibleItemPosition() || currentPage > layoutManager.findLastVisibleItemPosition()) {
                             layoutManager.scrollToPosition(currentPage)
