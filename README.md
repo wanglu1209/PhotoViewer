@@ -56,6 +56,11 @@ PhotoViewer
                   Glide.with(iv.context).load(url).into(iv)
               }
           })
+		  .setOnLongClickListener(object : OnLongClickListener{
+              override fun onLongClick(view: View) {
+                  // 长按图片的逻辑
+              }
+          })
           .start(this)
 ```
 
