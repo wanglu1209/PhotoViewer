@@ -3,8 +3,11 @@ package com.wanglu.photoviewer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.wanglu.photoviewerlibrary.OnLongClickListener
 import com.wanglu.photoviewerlibrary.PhotoViewer
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -78,6 +81,11 @@ class MainActivity : AppCompatActivity() {
             PhotoViewer
                     .setData(picData)
                     .setImgContainer(gv)
+                    .setOnLongClickListener(object : OnLongClickListener{
+                        override fun onLongClick(view: View) {
+                            Toast.makeText(view.context, "haha", Toast.LENGTH_LONG).show()
+                        }
+                    })
                     .setCurrentPage(position)
                     .setShowImageViewInterface(object : PhotoViewer.ShowImageViewInterface {
                         override fun show(iv: ImageView, url: String) {

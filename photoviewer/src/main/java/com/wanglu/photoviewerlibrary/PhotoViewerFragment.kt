@@ -13,6 +13,7 @@ class PhotoViewerFragment : BaseLazyFragment() {
 
 
     var exitListener: OnExitListener? = null
+    var longClickListener: OnLongClickListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -22,6 +23,7 @@ class PhotoViewerFragment : BaseLazyFragment() {
     interface OnExitListener {
         fun exit()
     }
+
 
     override fun onLazyLoad() {
 
@@ -38,6 +40,12 @@ class PhotoViewerFragment : BaseLazyFragment() {
         var alpha = 1f  // 透明度
         mIv.setExitLocation(mExitLocation)
         mIv.setImgSize(mImgSize)
+        mIv.setOnLongClickListener {
+            if(longClickListener != null){
+                longClickListener!!.onLongClick(it)
+            }
+            true
+        }
 
         // 循环查看是否添加上了图片
         Thread(Runnable {

@@ -35,6 +35,7 @@ object PhotoViewer {
     private var currentPage = 0    // 当前页
 
     private var clickView: WeakReference<View>? = null //点击那一张图片时候的view
+    private var longClickListener: OnLongClickListener? = null
 
     /**
      * 小圆点的drawable
@@ -143,6 +144,12 @@ object PhotoViewer {
         show(activity)
     }
 
+
+    fun setOnLongClickListener(longClickListener: OnLongClickListener): PhotoViewer {
+        this.longClickListener = longClickListener
+        return this
+    }
+
     private fun show(activity: AppCompatActivity) {
 
 
@@ -197,6 +204,7 @@ object PhotoViewer {
             b.putIntArray("exit_location", getCurrentViewLocation())
             b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
             f.arguments = b
+            f.longClickListener = longClickListener
             fragments.add(f)
         }
 
@@ -340,6 +348,7 @@ object PhotoViewer {
         decorView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
     }
+
 
 
 }
