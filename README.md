@@ -85,12 +85,16 @@ PhotoViewer
 
 ## Feature
 
-- ~~增加弹出动画~~（完成）
-- 增加加载图片时候的loading
-- ~~点击退出时的动画（目前只有滑动退出时有动画效果）~~（完成）
+- 加载大图时没有动画的问题
 
 
 ## 更新日志
+
+### 0.41
+
+增加了指示器样式的选择，`setIndicatorType(PhotoViewer.INDICATOR_TYPE_DOT/INDICATOR_TYPE_TEXT)`
+
+但是如果图片>9张，则默认显示文字样式，因为屏幕装不下
 
 ### 0.40
 

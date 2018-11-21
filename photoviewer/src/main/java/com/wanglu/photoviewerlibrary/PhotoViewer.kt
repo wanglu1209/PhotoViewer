@@ -3,6 +3,7 @@ package com.wanglu.photoviewerlibrary
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
@@ -14,10 +15,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -28,6 +26,11 @@ import kotlin.concurrent.timerTask
  * Created by WangLu on 2018/7/15.
  */
 object PhotoViewer {
+
+    const val INDICATOR_TYPE_DOT = "INDICATOR_TYPE_DOT"
+    const val INDICATOR_TYPE_TEXT = "INDICATOR_TYPE_TEXT"
+
+
     internal var mInterface: ShowImageViewInterface? = null
 
     private lateinit var imgData: ArrayList<String> // 图片数据
@@ -36,6 +39,11 @@ object PhotoViewer {
 
     private var clickView: WeakReference<View>? = null //点击那一张图片时候的view
     private var longClickListener: OnLongClickListener? = null
+
+    private var indicatorType = INDICATOR_TYPE_DOT   // 默认type为小圆点
+
+
+
 
     /**
      * 小圆点的drawable
@@ -150,6 +158,15 @@ object PhotoViewer {
         return this
     }
 
+
+    /**
+     * 设置指示器的样式，但是如果图片大于9张，则默认设置为文字样式
+     */
+    fun setIndicatorType(type: String): PhotoViewer {
+        this.indicatorType = type
+        return this
+    }
+
     private fun show(activity: AppCompatActivity) {
 
 
@@ -176,12 +193,19 @@ object PhotoViewer {
 
         /**
          * 存放没有被选中的小圆点Group和已经被选中小圆点
+         * 或者存放数字
          */
         var mFrameLayout: FrameLayout? = null
         /**
          * 选中的小圆点
          */
         var mSelectedDot: View? = null
+
+
+        /**
+         * 文字版本当前页
+         */
+        var tv:TextView ?= null
 
 
 
@@ -248,6 +272,13 @@ object PhotoViewer {
                     }
                 }
 
+                /**
+                 * 设置文字版本当前页的值
+                 */
+                if(tv != null){
+                    tv!!.text = "${currentPage + 1}/${imgData.size}"
+                }
+
                 // 这里延时0.2s是为了解决上面👆的问题。因为如果刚调用ScrollToPosition方法，就获取itemView是获取不到的，所以要延时一下
                 Timer().schedule(timerTask {
                     val b = Bundle()
@@ -265,8 +296,9 @@ object PhotoViewer {
         frameLayout.addView(photoViewLayout)
 
 
-        if (imgData.size > 1)
-            frameLayout.post {
+        frameLayout.post {
+            mFrameLayout = FrameLayout(activity)
+            if (imgData.size in 2..9 && indicatorType == INDICATOR_TYPE_DOT) {
 
                 /**
                  * 实例化两个Group
@@ -275,7 +307,6 @@ object PhotoViewer {
                     mFrameLayout!!.removeAllViews()
                     mFrameLayout = null
                 }
-                mFrameLayout = FrameLayout(activity)
                 if (mDotGroup != null) {
                     mDotGroup!!.removeAllViews()
                     mDotGroup = null
@@ -344,11 +375,23 @@ object PhotoViewer {
                      */
                     frameLayout.addView(mFrameLayout, params)
                 }
+            } else {
+                tv = TextView(activity)
+                tv!!.text = "${currentPage + 1}/${imgData.size}"
+                tv!!.setTextColor(Color.WHITE)
+                tv!!.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+                tv!!.textSize = 18f
+                mFrameLayout!!.addView(tv)
+                val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT)
+                params.bottomMargin = Utils.dp2px(activity, 80)
+                frameLayout.addView(mFrameLayout, params)
+
             }
+        }
         decorView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
     }
-
 
 
 }
