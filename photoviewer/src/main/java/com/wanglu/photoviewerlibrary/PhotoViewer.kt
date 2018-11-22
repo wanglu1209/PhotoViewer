@@ -305,7 +305,6 @@ object PhotoViewer {
                  */
                 if (mFrameLayout != null) {
                     mFrameLayout!!.removeAllViews()
-                    mFrameLayout = null
                 }
                 if (mDotGroup != null) {
                     mDotGroup!!.removeAllViews()

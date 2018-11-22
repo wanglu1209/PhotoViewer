@@ -90,7 +90,7 @@ PhotoViewer
 
 ## 更新日志
 
-### 0.41
+### 0.42
 
 增加了指示器样式的选择，`setIndicatorType(PhotoViewer.INDICATOR_TYPE_DOT/INDICATOR_TYPE_TEXT)`
 
