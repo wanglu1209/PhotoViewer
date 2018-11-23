@@ -90,6 +90,10 @@ PhotoViewer
 
 ## 更新日志
 
+### 0.43
+
+修复了图片放大到最大点击退出崩溃的问题
+
 ### 0.42
 
 增加了指示器样式的选择，`setIndicatorType(PhotoViewer.INDICATOR_TYPE_DOT/INDICATOR_TYPE_TEXT)`

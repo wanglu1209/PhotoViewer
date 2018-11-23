@@ -3,9 +3,9 @@ package com.wanglu.photoviewerlibrary
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Fragment
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -286,7 +286,7 @@ object PhotoViewer {
                     b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
                     b.putBoolean("in_anim", false)
                     b.putIntArray("exit_location", getCurrentViewLocation())
-                    fragments[position].arguments = b
+                    fragments[currentPage].arguments = b
                 }, 200)
 
             }
