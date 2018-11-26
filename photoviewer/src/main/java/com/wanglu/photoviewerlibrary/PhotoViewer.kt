@@ -43,8 +43,6 @@ object PhotoViewer {
     private var indicatorType = INDICATOR_TYPE_DOT   // 默认type为小圆点
 
 
-
-
     /**
      * 小圆点的drawable
      * 下标0的为没有被选中的
@@ -205,7 +203,7 @@ object PhotoViewer {
         /**
          * 文字版本当前页
          */
-        var tv:TextView ?= null
+        var tv: TextView? = null
 
 
 
@@ -223,11 +221,7 @@ object PhotoViewer {
                 }
 
             }
-            val b = Bundle()
-            b.putString("pic_data", imgData[i])
-            b.putIntArray("exit_location", getCurrentViewLocation())
-            b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
-            f.arguments = b
+            f.setData(intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight), getCurrentViewLocation(), imgData[i], true)
             f.longClickListener = longClickListener
             fragments.add(f)
         }
@@ -275,18 +269,13 @@ object PhotoViewer {
                 /**
                  * 设置文字版本当前页的值
                  */
-                if(tv != null){
+                if (tv != null) {
                     tv!!.text = "${currentPage + 1}/${imgData.size}"
                 }
 
                 // 这里延时0.2s是为了解决上面👆的问题。因为如果刚调用ScrollToPosition方法，就获取itemView是获取不到的，所以要延时一下
                 Timer().schedule(timerTask {
-                    val b = Bundle()
-                    b.putString("pic_data", imgData[currentPage])
-                    b.putIntArray("img_size", intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight))
-                    b.putBoolean("in_anim", false)
-                    b.putIntArray("exit_location", getCurrentViewLocation())
-                    fragments[currentPage].arguments = b
+                    fragments[currentPage].setData(intArrayOf(getItemView().measuredWidth, getItemView().measuredHeight), getCurrentViewLocation(), imgData[currentPage], false)
                 }, 200)
 
             }

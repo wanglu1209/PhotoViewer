@@ -15,6 +15,20 @@ class PhotoViewerFragment : BaseLazyFragment() {
     var exitListener: OnExitListener? = null
     var longClickListener: OnLongClickListener? = null
 
+    private var mImgSize = IntArray(2)
+    private var mExitLocation = IntArray(2)
+    private var mInAnim = true
+    private var mPicData = ""
+    /**
+     * 每次选中图片后设置图片信息
+     */
+    fun setData(imgSize: IntArray, exitLocation: IntArray, picData: String, inAnim: Boolean) {
+        mImgSize = imgSize
+        mExitLocation = exitLocation
+        mInAnim = inAnim
+        mPicData = picData
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.item_picture, container, false)
@@ -25,11 +39,9 @@ class PhotoViewerFragment : BaseLazyFragment() {
     }
 
 
+
     override fun onLazyLoad() {
 
-        val mExitLocation: IntArray = arguments!!.getIntArray("exit_location")
-        val mImgSize: IntArray = arguments!!.getIntArray("img_size")
-        val mPicData = arguments!!.getString("pic_data")
 
         if (PhotoViewer.mInterface != null) {
             PhotoViewer.mInterface!!.show(mIv, mPicData)
@@ -41,7 +53,7 @@ class PhotoViewerFragment : BaseLazyFragment() {
         mIv.setExitLocation(mExitLocation)
         mIv.setImgSize(mImgSize)
         mIv.setOnLongClickListener {
-            if(longClickListener != null){
+            if (longClickListener != null) {
                 longClickListener!!.onLongClick(it)
             }
             true
@@ -76,7 +88,7 @@ class PhotoViewerFragment : BaseLazyFragment() {
         }
 
         // 添加点击进入时的动画
-        if (arguments!!.getBoolean("in_anim", true))
+        if (mInAnim)
             mIv.post {
 
                 val scaleOa = ObjectAnimator.ofFloat(mIv, "scale", mImgSize[0].toFloat() / mIv.width, 1f)
