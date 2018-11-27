@@ -5,6 +5,7 @@
              android:layout_height="match_parent"
              android:background="#000">
 
+
     <com.wanglu.photoviewerlibrary.photoview.PhotoView
         android:id="@+id/mIv"
         android:layout_width="match_parent"

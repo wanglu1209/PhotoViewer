@@ -90,6 +90,10 @@ PhotoViewer
 
 ## 更新日志
 
+### 0.45
+
+更改依赖方式为compileOnly
+
 ### 0.44
 
 修改了图片fragment传参的方式
