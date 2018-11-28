@@ -4,6 +4,7 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Fragment
+import android.app.ProgressDialog.show
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
@@ -29,10 +30,6 @@ import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
 
-
-
-
-
 @SuppressLint("StaticFieldLeak")
 /**
  * Created by WangLu on 2018/7/15.
@@ -56,21 +53,32 @@ object PhotoViewer {
 
     private var indicatorType = INDICATOR_TYPE_DOT   // 默认type为小圆点
 
-    interface OnPhotoViewerCreatedListener{
+    interface OnPhotoViewerCreatedListener {
         fun onCreated()
     }
 
 
-    interface OnPhotoViewerDestroyListener{
+    interface OnPhotoViewerDestroyListener {
         fun onDestroy()
     }
 
-    fun setOnPhotoViewerCreatedListener(l: OnPhotoViewerCreatedListener): PhotoViewer{
-        mCreatedInterface = l
+    fun setOnPhotoViewerCreatedListener(l: () -> Unit): PhotoViewer {
+
+        mCreatedInterface = object : OnPhotoViewerCreatedListener {
+            override fun onCreated() {
+                l()
+            }
+
+        }
         return this
     }
-    fun setOnPhotoViewerDestroyListener(l : OnPhotoViewerDestroyListener): PhotoViewer{
-        mDestroyInterface = l
+
+    fun setOnPhotoViewerDestroyListener(l: () -> Unit): PhotoViewer {
+        mDestroyInterface = object : OnPhotoViewerDestroyListener {
+            override fun onDestroy() {
+                l()
+            }
+        }
         return this
     }
 
@@ -249,7 +257,7 @@ object PhotoViewer {
                         fragments.clear()
 
 
-                        if(mDestroyInterface != null){
+                        if (mDestroyInterface != null) {
                             mDestroyInterface!!.onDestroy()
                         }
                     }
@@ -414,7 +422,7 @@ object PhotoViewer {
         }
         decorView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
-        if(mCreatedInterface != null){
+        if (mCreatedInterface != null) {
             mCreatedInterface!!.onCreated()
         }
     }
