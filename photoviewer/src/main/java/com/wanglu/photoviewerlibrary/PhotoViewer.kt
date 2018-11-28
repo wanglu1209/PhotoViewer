@@ -4,21 +4,33 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Fragment
+import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.concurrent.timerTask
+import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_LOW_PROFILE
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+
+
+
 
 
 @SuppressLint("StaticFieldLeak")
@@ -32,6 +44,8 @@ object PhotoViewer {
 
 
     internal var mInterface: ShowImageViewInterface? = null
+    private var mCreatedInterface: OnPhotoViewerCreatedListener? = null
+    private var mDestroyInterface: OnPhotoViewerDestroyListener? = null
 
     private lateinit var imgData: ArrayList<String> // 图片数据
     private lateinit var container: WeakReference<ViewGroup>   // 存放图片的容器， ListView/GridView/RecyclerView
@@ -42,6 +56,23 @@ object PhotoViewer {
 
     private var indicatorType = INDICATOR_TYPE_DOT   // 默认type为小圆点
 
+    interface OnPhotoViewerCreatedListener{
+        fun onCreated()
+    }
+
+
+    interface OnPhotoViewerDestroyListener{
+        fun onDestroy()
+    }
+
+    fun setOnPhotoViewerCreatedListener(l: OnPhotoViewerCreatedListener): PhotoViewer{
+        mCreatedInterface = l
+        return this
+    }
+    fun setOnPhotoViewerDestroyListener(l : OnPhotoViewerDestroyListener): PhotoViewer{
+        mDestroyInterface = l
+        return this
+    }
 
     /**
      * 小圆点的drawable
@@ -206,7 +237,6 @@ object PhotoViewer {
         var tv: TextView? = null
 
 
-
         for (i in 0 until imgData.size) {
             val f = PhotoViewerFragment()
             f.exitListener = object : PhotoViewerFragment.OnExitListener {
@@ -217,6 +247,11 @@ object PhotoViewer {
                         frameLayout.removeAllViews()
                         decorView.removeView(frameLayout)
                         fragments.clear()
+
+
+                        if(mDestroyInterface != null){
+                            mDestroyInterface!!.onDestroy()
+                        }
                     }
                 }
 
@@ -379,6 +414,9 @@ object PhotoViewer {
         }
         decorView.addView(frameLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
+        if(mCreatedInterface != null){
+            mCreatedInterface!!.onCreated()
+        }
     }
 
 

@@ -90,6 +90,18 @@ PhotoViewer
 
 ## 更新日志
 
+### 0.46
+
+增加PhotoViewer加载和结束的监听接口
+```Kotlin
+.setOnPhotoViewerCreatedListener(object : PhotoViewer.OnPhotoViewerCreatedListener{
+    override fun onCreated() {
+    }
+
+})
+
+```
+
 ### 0.45
 
 更改依赖方式为compileOnly
