@@ -94,12 +94,8 @@ PhotoViewer
 
 增加PhotoViewer加载和结束的监听接口
 ```Kotlin
-.setOnPhotoViewerCreatedListener(object : PhotoViewer.OnPhotoViewerCreatedListener{
-    override fun onCreated() {
-    }
-
-})
-
+.setOnPhotoViewerCreatedListener{}
+.setOnPhotoViewerDestroyListener{}
 ```
 
 ### 0.45
