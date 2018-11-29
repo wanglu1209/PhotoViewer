@@ -1,9 +1,12 @@
 package com.wanglu.photoviewer
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -19,40 +22,6 @@ class MainActivity : AppCompatActivity() {
 
         val picData = arrayListOf(
                 "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-704146.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
-                "https://qiniucdn.fairyever.com/15149577854174.png",
-                "https://qiniucdn.fairyever.com/15149579640159.jpg",
                 "https://qiniucdn.fairyever.com/15149577854174.png",
                 "https://qiniucdn.fairyever.com/15149579640159.jpg",
                 "https://qiniucdn.fairyever.com/15149577854174.png",
@@ -76,11 +45,22 @@ class MainActivity : AppCompatActivity() {
 //                    .start(this)
 //        }
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = Color.TRANSPARENT
+        }
         gv.layoutManager = GridLayoutManager(this, 3)
-        adapter.setOnItemClickListener { adapter, view, position ->
+        adapter.setOnItemClickListener { _, _, position ->
             PhotoViewer
                     .setData(picData)
                     .setImgContainer(gv)
+                    .setOnPhotoViewerCreatedListener{
+
+                        Toast.makeText(this, "created", Toast.LENGTH_LONG).show()
+                    }
                     .setOnLongClickListener(object : OnLongClickListener{
                         override fun onLongClick(view: View) {
                             Toast.makeText(view.context, "haha", Toast.LENGTH_LONG).show()
