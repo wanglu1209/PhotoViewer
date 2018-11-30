@@ -424,20 +424,21 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                                 }
                             }
 
-                            if (mOnViewFingerUpListener != null) {
-                                ViewParent parent1 = v.getParent();
-                                if (parent1 != null) {
-                                    parent1.requestDisallowInterceptTouchEvent(false);
-                                }
-                                isBottomDrag = false;
-                                if (CURRENT_STATE != STATE_SCALE) {
-
-                                    mOnViewFingerUpListener.onViewFingerUp();
-                                }
-                            }
 
                         }
                         CURRENT_STATE = STATE_FINGER_UP;
+
+                        if (mOnViewFingerUpListener != null) {
+                            ViewParent parent1 = v.getParent();
+                            if (parent1 != null) {
+                                parent1.requestDisallowInterceptTouchEvent(false);
+                            }
+                            isBottomDrag = false;
+                            if (CURRENT_STATE != STATE_SCALE) {
+
+                                mOnViewFingerUpListener.onViewFingerUp();
+                            }
+                        }
                         break;
                 }
 
