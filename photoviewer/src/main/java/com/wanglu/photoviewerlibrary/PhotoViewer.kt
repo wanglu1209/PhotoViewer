@@ -3,31 +3,18 @@ package com.wanglu.photoviewerlibrary
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Fragment
-import android.app.ProgressDialog.show
-import android.content.pm.ActivityInfo
 import android.graphics.Color
-import android.os.Build
-import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.*
+import androidx.fragment.app.Fragment
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.concurrent.timerTask
-import android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LOW_PROFILE
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 
 
 @SuppressLint("StaticFieldLeak")
@@ -125,7 +112,7 @@ object PhotoViewer {
         return this
     }
 
-    fun setImgContainer(container: RecyclerView): PhotoViewer {
+    fun setImgContainer(container: androidx.recyclerview.widget.RecyclerView): PhotoViewer {
         this.container = WeakReference(container)
         return this
     }
@@ -139,7 +126,7 @@ object PhotoViewer {
                 val absListView = container.get() as AbsListView
                 absListView.getChildAt(currentPage - absListView.firstVisiblePosition)
             } else {
-                (container.get() as RecyclerView).layoutManager.findViewByPosition(currentPage)
+                (container.get() as androidx.recyclerview.widget.RecyclerView).layoutManager!!.findViewByPosition(currentPage)
             }
 
             var result: View? = null
@@ -185,6 +172,12 @@ object PhotoViewer {
     }
 
 
+    fun start(fragment: android.app.Fragment) {
+        val activity = fragment.activity!!
+        start(activity as AppCompatActivity)
+    }
+
+
     fun start(activity: AppCompatActivity) {
         show(activity)
     }
@@ -220,7 +213,7 @@ object PhotoViewer {
         val frameLayout = FrameLayout(activity)
 
         val photoViewLayout = LayoutInflater.from(activity).inflate(R.layout.activity_photoviewer, null)
-        val viewPager = photoViewLayout.findViewById<ViewPager>(R.id.mLookPicVP)
+        val viewPager = photoViewLayout.findViewById<androidx.viewpager.widget.ViewPager>(R.id.mLookPicVP)
 
         val fragments = mutableListOf<PhotoViewerFragment>()
         /**
@@ -275,7 +268,7 @@ object PhotoViewer {
         viewPager.adapter = adapter
         viewPager.currentItem = currentPage
         viewPager.offscreenPageLimit = 100
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -297,12 +290,12 @@ object PhotoViewer {
                  * 如果滑到的view不在当前页面显示，那么则滑动到那个position，再获取itemView
                  */
                 if (container.get() !is AbsListView) {
-                    val layoutManager = (container.get() as RecyclerView).layoutManager
-                    if (layoutManager is LinearLayoutManager) {
+                    val layoutManager = (container.get() as androidx.recyclerview.widget.RecyclerView).layoutManager
+                    if (layoutManager is androidx.recyclerview.widget.LinearLayoutManager) {
                         if (currentPage < layoutManager.findFirstVisibleItemPosition() || currentPage > layoutManager.findLastVisibleItemPosition()) {
                             layoutManager.scrollToPosition(currentPage)
                         }
-                    } else if (layoutManager is GridLayoutManager) {
+                    } else if (layoutManager is androidx.recyclerview.widget.GridLayoutManager) {
                         if (currentPage < layoutManager.findFirstVisibleItemPosition() || currentPage > layoutManager.findLastVisibleItemPosition()) {
                             layoutManager.scrollToPosition(currentPage)
                         }

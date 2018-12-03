@@ -1,11 +1,7 @@
 package com.wanglu.photoviewerlibrary
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-
-class PhotoViewerPagerAdapter(private var mData: MutableList<PhotoViewerFragment>, fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
-    override fun getItem(position: Int): Fragment {
+class PhotoViewerPagerAdapter(private var mData: MutableList<PhotoViewerFragment>, fragmentManager: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentStatePagerAdapter(fragmentManager) {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         return mData[position]
     }
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 
-class ViewPagerFixed : android.support.v4.view.ViewPager {
+class ViewPagerFixed : androidx.viewpager.widget.ViewPager {
 
     constructor(context: Context) : super(context)
 

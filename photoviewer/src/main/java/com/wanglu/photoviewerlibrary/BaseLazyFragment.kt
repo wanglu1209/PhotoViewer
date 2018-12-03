@@ -1,8 +1,8 @@
 package com.wanglu.photoviewerlibrary
 
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.v4.app.Fragment
+import androidx.annotation.UiThread
+import androidx.fragment.app.Fragment
 
 abstract class BaseLazyFragment : Fragment() {
     /**
