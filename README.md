@@ -91,7 +91,7 @@ PhotoViewer
 ## 更新日志
 
 
-### 0.48
+### 0.49
 
 增加androidx的支持
 
