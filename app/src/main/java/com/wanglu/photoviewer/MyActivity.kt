@@ -2,7 +2,10 @@ package com.wanglu.photoviewer
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
+import com.wanglu.photoviewer.R.id.btn
+import com.wanglu.photoviewer.R.id.btn2
 import kotlinx.android.synthetic.main.activity_my.*
 
 class MyActivity : AppCompatActivity() {

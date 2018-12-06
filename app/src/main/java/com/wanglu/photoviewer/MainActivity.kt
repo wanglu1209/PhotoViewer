@@ -3,12 +3,12 @@ package com.wanglu.photoviewer
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.wanglu.photoviewerlibrary.OnLongClickListener
 import com.wanglu.photoviewerlibrary.PhotoViewer

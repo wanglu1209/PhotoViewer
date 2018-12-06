@@ -1,7 +1,7 @@
 package com.wanglu.photoviewer
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity2 : AppCompatActivity() {
 
