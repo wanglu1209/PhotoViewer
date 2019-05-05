@@ -4,19 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffabbb"
     tools:context="com.wanglu.photoviewer.MainActivity">
 
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/gv"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:numColumns="3"
-                android:layout_gravity="center"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/gv"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
 
 

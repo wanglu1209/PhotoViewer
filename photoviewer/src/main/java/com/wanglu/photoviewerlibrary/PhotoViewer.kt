@@ -4,14 +4,13 @@ import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import java.lang.RuntimeException
 import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -129,21 +128,25 @@ object PhotoViewer {
                 (container.get() as androidx.recyclerview.widget.RecyclerView).layoutManager!!.findViewByPosition(currentPage)
             }
 
-            var result: View? = null
-            if (itemView is ViewGroup) {
-                for (i in 0 until itemView.childCount) {
-                    if (itemView.getChildAt(i) is ImageView) {
-                        result = itemView.getChildAt(i) as ImageView
-                        break
-                    }
-                }
+            return if (itemView is ViewGroup) {
+                findImageView(itemView)!!
             } else {
-                result = itemView as ImageView
+                itemView as ImageView
             }
-            return result!!
         } else {
             return clickView!!.get()!!
         }
+    }
+
+    private fun findImageView(group: ViewGroup): ImageView? {
+        for (i in 0 until group.childCount) {
+            return when {
+                group.getChildAt(i) is ImageView -> group.getChildAt(i) as ImageView
+                group.getChildAt(i) is ViewGroup -> findImageView(group.getChildAt(i) as ViewGroup)
+                else -> throw RuntimeException("未找到ImageView")
+            }
+        }
+        return null
     }
 
     /**
@@ -166,7 +169,7 @@ object PhotoViewer {
         return this
     }
 
-    fun start(fragment: Fragment) {
+    fun start(fragment: androidx.fragment.app.Fragment) {
         val activity = fragment.activity!!
         start(activity as AppCompatActivity)
     }
